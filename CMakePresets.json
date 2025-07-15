@@ -53,7 +53,7 @@
                 "vcpkg-win64-static"
             ],
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
+                "CMAKE_BUILD_TYPE": "MinSizeRel"
             }
         }
     ],
