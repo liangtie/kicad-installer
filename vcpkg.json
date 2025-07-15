@@ -19,6 +19,9 @@
     },
     {
       "name" : "openssl"
+    },
+    {
+      "name" : "qt"
     }
   ]
 }
