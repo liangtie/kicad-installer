@@ -1,0 +1,12 @@
+{
+  "name": "qt-static-build",
+  "version-semver": "0.1.0",
+  "dependencies": [
+    {
+      "name": "spdlog"
+    },
+    {
+      "name" : "cpp-httplib"
+    }
+  ]
+}
