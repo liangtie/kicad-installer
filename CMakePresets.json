@@ -1,77 +1,110 @@
 {
-  "version": 9,
-  "configurePresets": [
-      {
-          "name": "base",
-          "hidden": true,
-          "generator": "Ninja",
-          "binaryDir": "${sourceDir}/build",
-          "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
-          "condition": {
-              "type": "equals",
-              "lhs": "${hostSystemName}",
-              "rhs": "Windows"
-          }
-      },
-      {
-          "name": "win64",
-          "hidden": true,
-          "cacheVariables": {
-              "CMAKE_INSTALL_PREFIX": "out",
-              "CMAKE_PDB_OUTPUT_DIRECTORY": "out/pdb"
-          },
-          "architecture": {
-              "value": "x64",
-              "strategy": "external"
-          },
-          "inherits": [
-              "base"
-          ]
-      },
-      {
-          "name": "x64-debug",
-          "displayName": "x64 Debug",
-          "description": "Sets debug build type and x64 arch",
-          "inherits": "win64",
-          "cacheVariables": {
-              "CMAKE_BUILD_TYPE": "Debug"
-          }
-      },
-      {
-          "name": "x64-release",
-          "displayName": "x64 Release",
-          "description": "Sets release build type",
-          "inherits": "win64",
-          "cacheVariables": {
-              "CMAKE_BUILD_TYPE": "RelWithDebInfo"
-          }
-      }
-  ],  
-  "buildPresets": [
-      {
-        "name": "kicad-installer",
-        "configurePreset": "x64-debug",
-        "configuration": "Debug",
-        "targets": [
-          "install"  
-        ]
-      }
-    ],
-  "workflowPresets": [
-      {
-          "name": "kicad-installer",
-          "description": "kicad-installer",
-          "displayName": "kicad-installer",
-          "steps": [
-              {
-                "type": "configure",
-                "name": "x64-debug"
-              },
-              {
-                "type": "build",
-                "name": "kicad-installer"
-              }
+    "version": 9,
+    "configurePresets": [
+        {
+            "name": "base",
+            "hidden": true,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build",
+            "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "vcpkg-win64-static",
+            "hidden": true,
+            "cacheVariables": {
+                "VCPKG_TARGET_TRIPLET": "x64-windows-static-md"
+            }
+        },
+        {
+            "name": "win64",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "out",
+                "CMAKE_PDB_OUTPUT_DIRECTORY": "out/pdb"
+            },
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "inherits": [
+                "base"
             ]
-      }
-  ]
+        },
+        {
+            "name": "x64-debug",
+            "displayName": "x64 Debug",
+            "description": "Sets debug build type and x64 arch",
+            "inherits": "win64",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "x64-release",
+            "displayName": "x64 Release",
+            "description": "Sets release build type",
+            "inherits": [
+                "win64",
+                "vcpkg-win64-static"
+            ],
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "build-debug",
+            "configurePreset": "x64-debug",
+            "configuration": "Debug",
+            "targets": [
+                "install"
+            ]
+        },
+        {
+            "name": "build-release",
+            "configurePreset": "x64-release",
+            "configuration": "Release",
+            "targets": [
+                "install"
+            ]
+        }
+    ],
+    "workflowPresets": [
+        {
+            "name": "kicad-installer-dev",
+            "description": "kicad-installer-dev",
+            "displayName": "kicad-installer-dev",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "x64-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "build-debug"
+                }
+            ]
+        },
+        {
+            "name": "kicad-installer-release",
+            "description": "kicad-installer-release",
+            "displayName": "kicad-installer-release",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "x64-release"
+                },
+                {
+                    "type": "build",
+                    "name": "build-release"
+                }
+            ]
+        }
+    ]
 }
