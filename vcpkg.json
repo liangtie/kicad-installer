@@ -6,7 +6,10 @@
       "name": "spdlog"
     },
     {
-      "name" : "cpp-httplib"
+      "name": "nlohmann-json"
+    },
+    {
+      "name": "cpp-httplib"
     }
   ]
 }
