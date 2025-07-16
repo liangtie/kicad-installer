@@ -9,12 +9,18 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
+find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
+add_subdirectory(libs)
 
 set(
     TS_FILES 
     i18n/kicad-installer_zh_CN.ts
+)
+
+set(
+    RES_FILES
+    resources/showcase.qrc
 )
 
 set(PROJECT_SOURCES
@@ -23,6 +29,7 @@ set(PROJECT_SOURCES
         mainwindow.h
         mainwindow.ui
         ${TS_FILES}
+        ${RES_FILES}
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -52,7 +59,12 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-target_link_libraries(kicad-installer PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(kicad-installer 
+    PRIVATE 
+    Qt${QT_VERSION_MAJOR}::Widgets 
+    qlementine 
+    qlementine-icons    
+)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
