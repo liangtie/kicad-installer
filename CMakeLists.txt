@@ -64,6 +64,7 @@ target_link_libraries(kicad-installer
     Qt${QT_VERSION_MAJOR}::Widgets 
     qlementine 
     qlementine-icons    
+    QWKWidgets
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
