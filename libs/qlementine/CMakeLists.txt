@@ -44,10 +44,10 @@ qt_standard_project_setup(
 add_subdirectory(lib)
 
 # Example apps using the lib.
-# if(QLEMENTINE_SANDBOX)
+if(QLEMENTINE_SANDBOX)
   add_subdirectory(sandbox)
-# endif()
+endif()
 
-# if(QLEMENTINE_SHOWCASE)
+if(QLEMENTINE_SHOWCASE)
   add_subdirectory(showcase)
-# endif()
+endif()
