@@ -65,7 +65,6 @@ target_link_libraries(kicad-installer
     qlementine 
     qlementine-icons    
     QWKWidgets
-    WidgetFrame
 )
 
 
