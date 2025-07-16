@@ -6,9 +6,10 @@
 #include <oclero/qlementine/style/QlementineStyle.hpp>
 #include <oclero/qlementine/style/ThemeManager.hpp>
 #include <oclero/qlementine/icons/QlementineIcons.hpp>
+#include <qobject.h>
 
 
-#include "mainwindow.h"
+#include "app/mainwindow/mainwindow.h"
 
 int main(int argc, char* argv[])
 {
@@ -27,13 +28,12 @@ int main(int argc, char* argv[])
   }
 
  // Must be set after creating a QApplication.
-  QGuiApplication::setApplicationDisplayName("Showcase");
-  QCoreApplication::setApplicationName("Showcase");
-  QGuiApplication::setDesktopFileName("Showcase");
-  QCoreApplication::setOrganizationName("oclero");
-  QCoreApplication::setOrganizationDomain("olivierclero.com");
+  QGuiApplication::setApplicationDisplayName(QObject::tr("KiCad Installer"));
+  QCoreApplication::setApplicationName(QObject::tr("KiCad Installer"));
+  QGuiApplication::setDesktopFileName(QObject::tr("KiCad Installer"));
+  QCoreApplication::setOrganizationName("kicad.eda.cn");
+  QCoreApplication::setOrganizationDomain("kicad.eda.c");
   QCoreApplication::setApplicationVersion("1.0.0");
-  QApplication::setWindowIcon(QIcon(QStringLiteral(":/showcase/qlementine_icon.ico")));
 
   // Custom QStyle.
   auto* style = new oclero::qlementine::QlementineStyle(&qApplication);

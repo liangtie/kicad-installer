@@ -27,9 +27,8 @@ set(
 
 set(PROJECT_SOURCES
         main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
+        app/mainwindow/mainwindow.cpp
+        app/mainwindow/mainwindow.h
         ${TS_FILES}
         ${RES_FILES}
 )

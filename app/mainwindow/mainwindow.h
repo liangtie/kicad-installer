@@ -3,20 +3,11 @@
 
 #include <QMainWindow>
 
-QT_BEGIN_NAMESPACE
-
-namespace Ui
+namespace QWK
 {
-class MainWindow;
-}
-
-namespace QWK {
-    class WidgetWindowAgent;
-    class StyleAgent;
-}
-
-
-QT_END_NAMESPACE
+class WidgetWindowAgent;
+class StyleAgent;
+}  // namespace QWK
 
 class MainWindow : public QMainWindow
 {
@@ -29,8 +20,6 @@ public:
 private:
   void install_window_agent();
 
-private:
-  Ui::MainWindow* ui;
   QWK::WidgetWindowAgent* windowAgent;
 };
 #endif  // MAINWINDOW_H
