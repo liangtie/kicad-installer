@@ -6,7 +6,10 @@
 #include <oclero/qlementine/style/QlementineStyle.hpp>
 #include <oclero/qlementine/style/ThemeManager.hpp>
 #include <oclero/qlementine/icons/QlementineIcons.hpp>
+#include <qdebug.h>
 #include <qobject.h>
+#include <QTextStream>
+#include <QFile>
 
 
 #include "app/mainwindow/mainwindow.h"
@@ -41,6 +44,13 @@ int main(int argc, char* argv[])
   style->setAutoIconColor(oclero::qlementine::AutoIconColor::TextColor);
   style->setIconPathGetter(oclero::qlementine::icons::fromFreeDesktop);
   qApplication.setStyle(style);
+
+  const auto styleSheet = ([]() {
+    QFile styleSheetFile(":/themes/light-style.css");
+    QTextStream styleSheetStream(&styleSheetFile);
+    return styleSheetFile.open(QIODevice::ReadOnly) ? styleSheetStream.readAll() : QString();
+  })();
+  qApplication.setStyleSheet(styleSheet);
 
   // Custom icon theme.
   oclero::qlementine::icons::initializeIconTheme();

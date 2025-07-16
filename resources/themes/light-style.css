@@ -1,0 +1,4 @@
+QAbstractButton#btn_close:hover,
+QAbstractButton#btn_close:pressed {
+  background-color: #e81123;
+}

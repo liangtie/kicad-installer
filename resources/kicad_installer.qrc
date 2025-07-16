@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="/">
     <file>icons/kicad_x_huaqiu.png</file>
+    <file>themes/light-style.css</file>
   </qresource>
 </RCC>

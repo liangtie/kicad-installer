@@ -18,7 +18,6 @@ public:
   ~MainWindow();
 
 private:
-  void install_window_agent();
 
   QWK::WidgetWindowAgent* windowAgent;
 };

@@ -8,10 +8,10 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
-add_subdirectory(libs)
 
 set(
     TS_FILES 
@@ -27,8 +27,6 @@ set(
 
 set(PROJECT_SOURCES
         main.cpp
-        app/mainwindow/mainwindow.cpp
-        app/mainwindow/mainwindow.h
         ${TS_FILES}
         ${RES_FILES}
 )
@@ -60,6 +58,9 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
+add_subdirectory(libs)
+add_subdirectory(app)
+
 target_link_libraries(kicad-installer 
     PRIVATE 
     Qt${QT_VERSION_MAJOR}::Widgets 
@@ -73,6 +74,7 @@ target_link_directories(
     kicad-installer
     PRIVATE SYSTEM
     "${CMAKE_CURRENT_SOURCE_DIR}/libs"
+    "${CMAKE_CURRENT_SOURCE_DIR}/app"
 )
 
 
