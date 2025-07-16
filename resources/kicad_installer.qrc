@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="/">
+    <file>icons/kicad_x_huaqiu.png</file>
+  </qresource>
+</RCC>

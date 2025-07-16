@@ -21,6 +21,8 @@ set(
 set(
     RES_FILES
     resources/showcase.qrc
+    resources/kicad_installer.qrc
+    resources/icons/kicad_installer.rc
 )
 
 set(PROJECT_SOURCES
