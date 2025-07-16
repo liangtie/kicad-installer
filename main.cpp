@@ -13,6 +13,7 @@
 int main(int argc, char* argv[])
 {
   QApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
+  QCoreApplication::setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
   QApplication qApplication(argc, argv);
 
   QTranslator translator;
@@ -50,7 +51,7 @@ int main(int argc, char* argv[])
   themeManager->loadDirectory(":/showcase/themes");
 
   // Define theme on QStyle.
-  themeManager->setCurrentTheme("Dark");
+  themeManager->setCurrentTheme("Light");
 
   MainWindow w;
   w.show();

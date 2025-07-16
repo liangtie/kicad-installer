@@ -65,7 +65,16 @@ target_link_libraries(kicad-installer
     qlementine 
     qlementine-icons    
     QWKWidgets
+    WidgetFrame
 )
+
+
+target_link_directories(
+    kicad-installer
+    PRIVATE SYSTEM
+    "${CMAKE_CURRENT_SOURCE_DIR}/libs"
+)
+
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

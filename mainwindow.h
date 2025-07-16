@@ -10,6 +10,12 @@ namespace Ui
 class MainWindow;
 }
 
+namespace QWK {
+    class WidgetWindowAgent;
+    class StyleAgent;
+}
+
+
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
@@ -21,6 +27,10 @@ public:
   ~MainWindow();
 
 private:
+  void install_window_agent();
+
+private:
   Ui::MainWindow* ui;
+  QWK::WidgetWindowAgent* windowAgent;
 };
 #endif  // MAINWINDOW_H
