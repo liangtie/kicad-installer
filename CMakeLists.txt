@@ -12,6 +12,10 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
+find_package(httplib CONFIG REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
+find_package(spdlog CONFIG REQUIRED)
+ find_package(cpr CONFIG REQUIRED)
 
 set(
     TS_FILES 
@@ -66,6 +70,10 @@ target_link_libraries(kicad-installer
     PRIVATE 
     Qt${QT_VERSION_MAJOR}::Widgets 
     QWKWidgets
+    nlohmann_json::nlohmann_json
+    httplib::httplib
+    spdlog::spdlog
+    cpr::cpr
 )
 
 
