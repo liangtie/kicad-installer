@@ -3,5 +3,8 @@
     <file>icons/kicad_x_huaqiu.png</file>
     <file>icons/huaqiu-animate.gif</file>
     <file>themes/light-style.css</file>
+    <file>icons/close.svg</file>
+    <file>icons/help.svg</file>
+    <file>icons/minimize.svg</file>
   </qresource>
 </RCC>

@@ -1,6 +1,7 @@
 #include "titlebar.h"
 
 #include <qapplication.h>
+#include <qicon.h>
 #include <qsize.h>
 #include <qtoolbutton.h>
 
@@ -13,15 +14,15 @@ TitleBar::TitleBar(QWidget* parent)
     , ui(new Ui::TitleBar)
 {
   ui->setupUi(this);
-  // ui->btn_min->setIcon(
-  //     make_themed_icon(Icons16::Action_WindowsMinimize, kSize16));
-  // ui->btn_close->setIcon(
-  //     make_themed_icon(Icons16::Action_WindowsClose, kSize16));
-  // ui->btn_help->setIcon(make_themed_icon(Icons16::Misc_Question, kSize16));
+  ui->btn_min->setIcon(QIcon(":/icons/minimize.svg"));
+  ui->btn_close->setIcon(QIcon(":/icons/close.svg"));
+  ui->btn_help->setIcon(QIcon(":/icons/help.svg"));
+
 
   for (const auto btn : findChildren<QToolButton*>()) {
     btn->setIconSize(kSize16);
     btn->setFixedSize(kSize16);
+    btn->setProperty("system-button", true);
   }
 }
 
