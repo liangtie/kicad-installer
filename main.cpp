@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
   QCoreApplication::setApplicationName(QObject::tr("KiCad Installer"));
   QGuiApplication::setDesktopFileName(QObject::tr("KiCad Installer"));
   QCoreApplication::setOrganizationName("kicad.eda.cn");
-  QCoreApplication::setOrganizationDomain("kicad.eda.c");
+  QCoreApplication::setOrganizationDomain("kicad.eda.cn");
   QCoreApplication::setApplicationVersion("1.0.0");
 
   // Custom QStyle.
