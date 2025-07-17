@@ -2,12 +2,15 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <map>
 
 namespace QWK
 {
 class WidgetWindowAgent;
 class StyleAgent;
 }  // namespace QWK
+
+enum PAGE_INDEX;
 
 class MainWindow : public QMainWindow
 {
@@ -18,7 +21,7 @@ public:
   ~MainWindow();
 
 private:
-
-  QWK::WidgetWindowAgent* windowAgent;
+  QWK::WidgetWindowAgent* _windowAgent;
+  std::map<PAGE_INDEX, QWidget*> _pages;
 };
 #endif  // MAINWINDOW_H
