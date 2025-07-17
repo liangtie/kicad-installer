@@ -12,7 +12,10 @@
       "name": "cpp-httplib"
     },
     {
-      "name" :"minizip"
+      "name": "minizip"
+    },
+    {
+      "name": "cpr"
     }
   ]
 }
