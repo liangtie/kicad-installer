@@ -28,39 +28,81 @@
     </spacer>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>保存路径：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="edit_save_path"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btn_change_save_path">
+       <property name="text">
+        <string>更改</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QLabel" name="label">
+        <widget class="QCheckBox" name="check_unzip">
          <property name="text">
-          <string>保存路径：</string>
+          <string>自动解压缩</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="edit_save_path"/>
+        <widget class="QCheckBox" name="check_auto_run">
+         <property name="text">
+          <string>下载完成自动打开</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="btn_change_save_path">
+        <widget class="QCheckBox" name="check_shortcut">
          <property name="text">
-          <string>更改</string>
+          <string>自动创建快捷方式</string>
          </property>
         </widget>
        </item>
       </layout>
      </item>
      <item>
-      <widget class="QCheckBox" name="check_unzip">
-       <property name="text">
-        <string>自动解压缩</string>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
-      </widget>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
      <item>
-      <widget class="QCheckBox" name="check_shortcut">
+      <widget class="QPushButton" name="btn_start_download">
+       <property name="font">
+        <font>
+         <family>Microsoft YaHei</family>
+        </font>
+       </property>
        <property name="text">
-        <string>自动创建快捷方式</string>
+        <string>开始下载</string>
        </property>
       </widget>
      </item>

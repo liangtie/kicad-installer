@@ -105,6 +105,9 @@ MainWindow::MainWindow(QWidget* parent)
               }
             }
           });
+    connect(portable_page,&PageConfigPortable::startDownload, this,[=, this]{
+      _stackedWidget->setCurrentWidget(download_page);
+    });
 
   setAttribute(Qt::WA_DontCreateNativeAncestors);
   setFixedSize(MAINWINDOW_WIDTH, MAINWINDOW_HEIGHT);
