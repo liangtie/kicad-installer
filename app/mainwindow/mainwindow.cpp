@@ -24,6 +24,8 @@
 #include <QtWidgets/QStyle>
 
 #include "app/pages/page_index.h"
+#include "app/pages/pageconfigportable.h"
+#include "app/pages/pagedownloadprogress.h"
 #include "app/pages/pageselectinstallmethod.h"
 #include "app/titlebar/titlebar.h"
 
@@ -76,17 +78,37 @@ MainWindow::MainWindow(QWidget* parent)
   layout->addWidget(_stackedWidget, 1);
   _stackedWidget->setFocus();
 
+  auto select_page = new PageSelectInstallMethod;
+  _stackedWidget->addWidget(select_page);
+
+  auto portable_page = new PageConfigPortable;
+  _stackedWidget->addWidget(portable_page);
+
+  auto download_page = new PageDownloadProgress;
+  _stackedWidget->addWidget(download_page);
+
+  connect(select_page,
+          &PageSelectInstallMethod::installMethodSelected,
+          this,
+          [this, portable_page, download_page](INSTALL_METHOD method)
+          {
+            switch (method) {
+              case PORTABLE:
+              {
+                _stackedWidget->setCurrentWidget(portable_page);
+                break;
+              }
+              case INSTALLER:
+              {
+                _stackedWidget->setCurrentWidget(download_page);
+                break;
+              }
+            }
+          });
+
   setAttribute(Qt::WA_DontCreateNativeAncestors);
   setFixedSize(MAINWINDOW_WIDTH, MAINWINDOW_HEIGHT);
-
-  _stackedWidget->addWidget(new PageSelectInstallMethod);
 }
 
 MainWindow::~MainWindow() {}
 
-void MainWindow::show_page(PAGE_INDEX index)
-{
-  if (index < _stackedWidget->count()) {
-    _stackedWidget->setCurrentIndex(index);
-  }
-}

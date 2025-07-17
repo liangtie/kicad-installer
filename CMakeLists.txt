@@ -34,6 +34,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(kicad-installer
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        app/pages/pageconfigportable.h app/pages/pageconfigportable.cpp app/pages/pageconfigportable.ui
+        app/pages/pagedownloadprogress.h app/pages/pagedownloadprogress.cpp app/pages/pagedownloadprogress.ui
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET kicad-installer APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
