@@ -9,6 +9,7 @@
 #include "mainwindow.h"
 
 #include <QWKWidgets/widgetwindowagent.h>
+#include <qboxlayout.h>
 #include <qdesktopservices.h>
 #include <qurl.h>
 
@@ -66,7 +67,10 @@ MainWindow::MainWindow(QWidget* parent)
   label->setScaledContents(true);
   label->setMovie(movie);
   movie->start();
-  layout->addWidget(label);
+  auto lay_img = new QVBoxLayout();
+  lay_img->setContentsMargins(8, 0, 8, 0);
+  lay_img->addWidget(label);
+  layout->addLayout(lay_img);
 
   _stackedWidget = new QStackedWidget(container_widget);
   layout->addWidget(_stackedWidget, 1);

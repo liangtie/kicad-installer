@@ -1,3 +1,7 @@
+QWidget{
+    font-family: "Microsoft YaHei";
+}
+
 QToolButton[system-button=true] {
     min-width: 30px;
     border: none;
@@ -31,4 +35,20 @@ MainWindow {
 MainWindow[custom-style=true] {
     background-color: transparent;
 }
+
+QPushButton#btn_installer,
+QPushButton#btn_portable {
+    background-color: #117bc2;
+    min-height: 60px;
+    border-radius: 6px;
+    color: white;
+    font-size: 32px;
+}
+
+QPushButton#btn_installer:hover,
+QPushButton#btn_portable:hover {
+    background-color: #59ace4;
+}
+
+
 
