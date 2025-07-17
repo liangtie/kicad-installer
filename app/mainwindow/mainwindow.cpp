@@ -21,6 +21,8 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStyle>
 
+#include "app/pages/page_index.h"
+#include "app/pages/pageselectinstallmethod.h"
 #include "app/titlebar/titlebar.h"
 
 enum MAINWINDOW_SIZE
@@ -56,17 +58,23 @@ MainWindow::MainWindow(QWidget* parent)
   connect(helpButton,
           &QPushButton::clicked,
           this,
-          []
-          {
-            QDesktopServices::openUrl(QUrl("https://kicad.eda.cn/"));
-          });
+          [] { QDesktopServices::openUrl(QUrl("https://kicad.eda.cn/")); });
 
-  auto stack = new QStackedWidget(container_widget);
-  stack->setFocus();
-  layout->addWidget(stack, 1);
+  _stackedWidget = new QStackedWidget(container_widget);
+  layout->addWidget(_stackedWidget, 1);
+  _stackedWidget->setFocus();
 
   setAttribute(Qt::WA_DontCreateNativeAncestors);
   setFixedSize(MAINWINDOW_WIDTH, MAINWINDOW_HEIGHT);
+
+  _stackedWidget->addWidget(new PageSelectInstallMethod);
 }
 
 MainWindow::~MainWindow() {}
+
+void MainWindow::show_page(PAGE_INDEX index)
+{
+  if (index < _stackedWidget->count()) {
+    _stackedWidget->setCurrentIndex(index);
+  }
+}

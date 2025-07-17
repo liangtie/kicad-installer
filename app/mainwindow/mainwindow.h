@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <map>
+#include <qstackedwidget.h>
 
 namespace QWK
 {
@@ -21,7 +22,11 @@ public:
   ~MainWindow();
 
 private:
+  void show_page(PAGE_INDEX index);
+
+private:
   QWK::WidgetWindowAgent* _windowAgent;
   std::map<PAGE_INDEX, QWidget*> _pages;
+  QStackedWidget* _stackedWidget;
 };
 #endif  // MAINWINDOW_H
