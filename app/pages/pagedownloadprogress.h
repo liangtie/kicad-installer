@@ -16,6 +16,8 @@ public:
   explicit PageDownloadProgress(QWidget* parent = nullptr);
   ~PageDownloadProgress();
 
+  void startDownload();
+
 private:
   Ui::PageDownloadProgress* ui;
 };

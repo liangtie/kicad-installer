@@ -21,6 +21,8 @@ public:
   ~MainWindow();
 
 
+  void startDownload();
+
 
 private:
   QWK::WidgetWindowAgent* _windowAgent;

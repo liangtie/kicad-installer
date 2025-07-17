@@ -87,10 +87,16 @@ MainWindow::MainWindow(QWidget* parent)
   auto download_page = new PageDownloadProgress;
   _stackedWidget->addWidget(download_page);
 
+
+ auto start_download = [this, download_page]() {
+     _stackedWidget->setCurrentIndex(PAGE_DOWNLOAD_PROGRESS);
+     download_page->startDownload();
+   };
+
   connect(select_page,
           &PageSelectInstallMethod::installMethodSelected,
           this,
-          [this, portable_page, download_page](INSTALL_METHOD method)
+          [=](INSTALL_METHOD method)
           {
             switch (method) {
               case PORTABLE:
@@ -100,13 +106,13 @@ MainWindow::MainWindow(QWidget* parent)
               }
               case INSTALLER:
               {
-                _stackedWidget->setCurrentWidget(download_page);
+                start_download();
                 break;
               }
             }
           });
     connect(portable_page,&PageConfigPortable::startDownload, this,[=, this]{
-      _stackedWidget->setCurrentWidget(download_page);
+      start_download();
     });
 
   setAttribute(Qt::WA_DontCreateNativeAncestors);
@@ -114,4 +120,5 @@ MainWindow::MainWindow(QWidget* parent)
 }
 
 MainWindow::~MainWindow() {}
+
 
