@@ -52,7 +52,7 @@ MainWindow::MainWindow(QWidget* parent)
   auto helpButton = title_bar->help_button();
   _windowAgent->setSystemButton(QWK::WindowAgentBase::Minimize, minButton);
   _windowAgent->setSystemButton(QWK::WindowAgentBase::Close, closeButton);
-  _windowAgent->setSystemButton(QWK::WindowAgentBase::Help, closeButton);
+  _windowAgent->setSystemButton(QWK::WindowAgentBase::Help, helpButton);
   _windowAgent->setTitleBar(title_bar);
   layout->addWidget(title_bar);
   connect(closeButton, &QPushButton::clicked, this, &QWidget::close);
