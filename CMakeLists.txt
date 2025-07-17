@@ -20,7 +20,6 @@ set(
 
 set(
     RES_FILES
-    resources/showcase.qrc
     resources/kicad_installer.qrc
     resources/icons/kicad_installer.rc
 )
@@ -64,8 +63,6 @@ add_subdirectory(app)
 target_link_libraries(kicad-installer 
     PRIVATE 
     Qt${QT_VERSION_MAJOR}::Widgets 
-    qlementine 
-    qlementine-icons    
     QWKWidgets
 )
 

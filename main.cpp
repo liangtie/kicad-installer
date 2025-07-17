@@ -1,11 +1,7 @@
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
-#include <QApplication>
 
-#include <oclero/qlementine/style/QlementineStyle.hpp>
-#include <oclero/qlementine/style/ThemeManager.hpp>
-#include <oclero/qlementine/icons/QlementineIcons.hpp>
 #include <qdebug.h>
 #include <qobject.h>
 #include <QTextStream>
@@ -38,13 +34,6 @@ int main(int argc, char* argv[])
   QCoreApplication::setOrganizationDomain("kicad.eda.cn");
   QCoreApplication::setApplicationVersion("1.0.0");
 
-  // Custom QStyle.
-  auto* style = new oclero::qlementine::QlementineStyle(&qApplication);
-  style->setAnimationsEnabled(true);
-  style->setAutoIconColor(oclero::qlementine::AutoIconColor::TextColor);
-  style->setIconPathGetter(oclero::qlementine::icons::fromFreeDesktop);
-  qApplication.setStyle(style);
-
   const auto styleSheet = ([]() {
     QFile styleSheetFile(":/themes/light-style.css");
     QTextStream styleSheetStream(&styleSheetFile);
@@ -52,16 +41,6 @@ int main(int argc, char* argv[])
   })();
   qApplication.setStyleSheet(styleSheet);
 
-  // Custom icon theme.
-  oclero::qlementine::icons::initializeIconTheme();
-  QIcon::setThemeName("qlementine");
-
-  // Theme manager.
-  auto* themeManager = new oclero::qlementine::ThemeManager(style);
-  themeManager->loadDirectory(":/showcase/themes");
-
-  // Define theme on QStyle.
-  themeManager->setCurrentTheme("Light");
 
   MainWindow w;
   w.show();
