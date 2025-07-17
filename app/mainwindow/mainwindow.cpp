@@ -2,6 +2,7 @@
 
 #include <QDesktopServices>
 #include <QLabel>
+#include <QMovie>
 #include <QStackedWidget>
 #include <QVBoxLayout>
 
@@ -59,6 +60,13 @@ MainWindow::MainWindow(QWidget* parent)
           &QPushButton::clicked,
           this,
           [] { QDesktopServices::openUrl(QUrl("https://kicad.eda.cn/")); });
+
+  QMovie* movie = new QMovie(":/icons/huaqiu-animate.gif");
+  QLabel* label = new QLabel();
+  label->setScaledContents(true);
+  label->setMovie(movie);
+  movie->start();
+  layout->addWidget(label);
 
   _stackedWidget = new QStackedWidget(container_widget);
   layout->addWidget(_stackedWidget, 1);
