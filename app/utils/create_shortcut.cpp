@@ -1,0 +1,11 @@
+#include "create_shortcut.h"
+
+CREATE_SHORTCUT::CREATE_SHORTCUT()
+{
+
+}
+
+CREATE_SHORTCUT::~CREATE_SHORTCUT()
+{
+
+}
