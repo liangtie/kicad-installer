@@ -33,7 +33,7 @@ signals:
   void downloadProgress(DOWNLOAD_PROGRESS progress);
 
 private:
-  std::atomic_bool m_cancelled {false};
+  std::shared_ptr<std::atomic_bool> m_cancelled ;
   QString _url;
   QString _savePath;
   DOWNLOAD_PROGRESS m_progress;

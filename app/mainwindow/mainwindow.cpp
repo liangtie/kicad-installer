@@ -11,6 +11,7 @@
 #include <QWKWidgets/widgetwindowagent.h>
 #include <qboxlayout.h>
 #include <qdesktopservices.h>
+#include <qmessagebox.h>
 #include <qurl.h>
 
 #include <QtCore/QDebug>
@@ -29,7 +30,6 @@
 #include "app/pages/pageselectinstallmethod.h"
 #include "app/titlebar/titlebar.h"
 #include "app/utils/installation_method.h"
-
 
 enum MAINWINDOW_SIZE
 {
@@ -59,7 +59,18 @@ MainWindow::MainWindow(QWidget* parent)
   _windowAgent->setSystemButton(QWK::WindowAgentBase::Help, helpButton);
   _windowAgent->setTitleBar(title_bar);
   layout->addWidget(title_bar);
-  connect(closeButton, &QPushButton::clicked, this, &QWidget::close);
+  connect(closeButton,
+          &QPushButton::clicked,
+          this,
+          []
+          {
+            if (QMessageBox::question(
+                    nullptr, tr("Quit"), tr("Are you sure you want to quit?"))
+                == QMessageBox::Yes)
+            {
+              QApplication::quit();
+            }
+          });
   connect(minButton, &QPushButton::clicked, this, &QWidget::showMinimized);
   connect(helpButton,
           &QPushButton::clicked,
@@ -89,38 +100,35 @@ MainWindow::MainWindow(QWidget* parent)
   auto download_page = new PageDownloadProgress;
   _stackedWidget->addWidget(download_page);
 
-
- auto start_download = [this, download_page]() {
-     _stackedWidget->setCurrentIndex(PAGE_DOWNLOAD_PROGRESS);
-     download_page->startDownload();
-   };
+  auto start_download = [this, download_page](INSTALLATION_METHOD method)
+  {
+    _stackedWidget->setCurrentIndex(PAGE_DOWNLOAD_PROGRESS);
+    download_page->startDownload(method);
+  };
 
   connect(select_page,
           &PageSelectInstallMethod::installMethodSelected,
           this,
-          [=](INSTALLATION_METHOD method)
+          [=, this](INSTALLATION_METHOD method)
           {
             switch (method) {
-              case PORTABLE:
-              {
+              case PORTABLE: {
                 _stackedWidget->setCurrentWidget(portable_page);
                 break;
               }
-              case INSTALLER:
-              {
-                start_download();
+              case INSTALLER: {
+                start_download(INSTALLATION_METHOD::INSTALLER);
                 break;
               }
             }
           });
-    connect(portable_page,&PageConfigPortable::startDownload, this,[=, this]{
-      start_download();
-    });
+  connect(portable_page,
+          &PageConfigPortable::startDownload,
+          this,
+          [=, this] { start_download(INSTALLATION_METHOD::PORTABLE); });
 
   setAttribute(Qt::WA_DontCreateNativeAncestors);
   setFixedSize(MAINWINDOW_WIDTH, MAINWINDOW_HEIGHT);
 }
 
 MainWindow::~MainWindow() {}
-
-

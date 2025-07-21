@@ -42,7 +42,6 @@ int main(int argc, char* argv[])
   })();
   qApplication.setStyleSheet(styleSheet);
 
-  get_latest_version();
   MainWindow w;
   w.show();
 

@@ -1,7 +1,9 @@
 #include <QElapsedTimer>
 #include <QFileInfo>
 #include <QThread>
+#include <atomic>
 #include <fstream>
+#include <memory>
 #include <utility>
 
 #include "downloader.h"
@@ -27,13 +29,15 @@ void DOWNLOADER::start()
 
 void DOWNLOADER::cancel()
 {
-  m_cancelled.store(true);
+  if (m_cancelled) {
+    m_cancelled->store(true);
+  }
 }
 
 void DOWNLOADER::downloadFile()
 {
   m_progress = DOWNLOAD_PROGRESS {};
-  m_cancelled.store(false);
+  m_cancelled = std::make_shared<std::atomic_bool>();
 
   std::ofstream ofs(_savePath.toStdString(), std::ios::binary);
   if (!ofs.is_open()) {
@@ -66,7 +70,7 @@ void DOWNLOADER::downloadFile()
       [this, &ofs, &timer, &lastUpdateTime](std::string data,
                                             intptr_t /* userdata */) -> bool
       {
-        if (m_cancelled.load()) {
+        if (m_cancelled->load()) {
           m_progress.error = true;
           m_progress.errorMessage = "Download cancelled.";
           emit downloadProgress(m_progress);
@@ -95,6 +99,7 @@ void DOWNLOADER::downloadFile()
         return true;
       }};
 
+  session.SetCancellationParam(m_cancelled);
   cpr::Response result = session.Download(callback);
   if (result.error) {
     m_progress.error = true;
@@ -103,7 +108,7 @@ void DOWNLOADER::downloadFile()
     return;
   }
 
-  if (!m_cancelled.load()) {
+  if (!m_cancelled->load()) {
     m_progress.downloaded = m_progress.total;
     m_progress.finished = true;
     m_progress.eta = 0;
