@@ -3,5 +3,6 @@ target_sources(
     PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}/create_shortcut.cpp
     ${CMAKE_CURRENT_LIST_DIR}/downloader.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/get_latest_version.cpp
     ${CMAKE_CURRENT_LIST_DIR}/unzip.cpp
 )

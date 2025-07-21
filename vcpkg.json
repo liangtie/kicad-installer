@@ -6,10 +6,10 @@
       "name": "spdlog"
     },
     {
-      "name": "nlohmann-json"
-    },
+      "name": "fmt"
+    },    
     {
-      "name": "cpp-httplib"
+      "name": "nlohmann-json"
     },
     {
       "name": "minizip"

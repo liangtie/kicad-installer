@@ -28,6 +28,8 @@
 #include "app/pages/pagedownloadprogress.h"
 #include "app/pages/pageselectinstallmethod.h"
 #include "app/titlebar/titlebar.h"
+#include "app/utils/Installation_method.h"
+
 
 enum MAINWINDOW_SIZE
 {
@@ -96,7 +98,7 @@ MainWindow::MainWindow(QWidget* parent)
   connect(select_page,
           &PageSelectInstallMethod::installMethodSelected,
           this,
-          [=](INSTALL_METHOD method)
+          [=](INSTALLATION_METHOD method)
           {
             switch (method) {
               case PORTABLE:

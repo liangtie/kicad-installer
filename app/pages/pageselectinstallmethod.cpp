@@ -1,6 +1,7 @@
 #include "pageselectinstallmethod.h"
 
 #include "ui_pageselectinstallmethod.h"
+#include "app/utils/Installation_method.h"
 
 PageSelectInstallMethod::PageSelectInstallMethod(QWidget* parent)
     : QWidget(parent)

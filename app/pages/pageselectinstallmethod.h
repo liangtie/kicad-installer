@@ -3,18 +3,13 @@
 
 #include <QWidget>
 
-#include <qtmetamacros.h>
+#include "app/utils/Installation_method.h"
 
 namespace Ui
 {
 class PageSelectInstallMethod;
 }
 
-enum INSTALL_METHOD
-{
-  PORTABLE,
-  INSTALLER
-};
 
 class PageSelectInstallMethod : public QWidget
 {
@@ -28,7 +23,7 @@ private:
   Ui::PageSelectInstallMethod* ui;
 
 signals:
-  void installMethodSelected(INSTALL_METHOD method);
+  void installMethodSelected(INSTALLATION_METHOD method);
 };
 
 #endif  // PAGESELECTINSTALLMETHOD_H

@@ -1,18 +1,19 @@
 #include <QApplication>
+#include <QFile>
 #include <QLocale>
+#include <QTextStream>
 #include <QTranslator>
 
 #include <qdebug.h>
 #include <qobject.h>
-#include <QTextStream>
-#include <QFile>
-
 
 #include "app/mainwindow/mainwindow.h"
+#include "app/utils/get_latest_version.h"
 
 int main(int argc, char* argv[])
 {
-  QApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
+  QApplication::setHighDpiScaleFactorRoundingPolicy(
+      Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
   QCoreApplication::setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
   QApplication qApplication(argc, argv);
 
@@ -26,7 +27,7 @@ int main(int argc, char* argv[])
     }
   }
 
- // Must be set after creating a QApplication.
+  // Must be set after creating a QApplication.
   QGuiApplication::setApplicationDisplayName(QObject::tr("KiCad Installer"));
   QCoreApplication::setApplicationName(QObject::tr("KiCad Installer"));
   QGuiApplication::setDesktopFileName(QObject::tr("KiCad Installer"));
@@ -41,10 +42,9 @@ int main(int argc, char* argv[])
   })();
   qApplication.setStyleSheet(styleSheet);
 
-
+  get_latest_version();
   MainWindow w;
   w.show();
 
   return qApplication.exec();
-
 }
