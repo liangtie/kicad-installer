@@ -44,12 +44,11 @@ void PageDownloadProgress::startDownload(INSTALLATION_METHOD method)
 
   const auto file_name = fmt_download_file_name(method, *version);
 
-  const auto save_path =
-      QStandardPaths::writableLocation(QStandardPaths::DownloadLocation) + "/"
-      + file_name.c_str();
+  _savePath = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation)
+      + "/" + file_name.c_str();
 
   const auto url = gen_url_from_file_name(file_name);
-  _downloader = new DOWNLOADER(url.c_str(), save_path);
+  _downloader = new DOWNLOADER(url.c_str(), _savePath);
 
   _downloader->moveToThread(_downloadThread.get());
   connect(_downloadThread.get(),
@@ -69,4 +68,8 @@ void PageDownloadProgress::updateProgress(DOWNLOAD_PROGRESS const& progress)
   ui->label_down_count->setText(
       QString::number(progress.downloaded / 1024 / 1024) + " MB");
   ui->label_speed->setText(QString::number(progress.speed / 1024) + " KB/s");
+
+  if (progress.finished) {
+    emit downloadCompleted(_savePath);
+  }
 }

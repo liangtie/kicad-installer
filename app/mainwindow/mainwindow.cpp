@@ -1,6 +1,7 @@
 
 
 #include <QDesktopServices>
+#include <QFileInfo>
 #include <QLabel>
 #include <QMovie>
 #include <QStackedWidget>
@@ -11,6 +12,7 @@
 #include <QWKWidgets/widgetwindowagent.h>
 #include <qboxlayout.h>
 #include <qdesktopservices.h>
+#include <qdir.h>
 #include <qmessagebox.h>
 #include <qurl.h>
 
@@ -30,6 +32,7 @@
 #include "app/pages/pageselectinstallmethod.h"
 #include "app/titlebar/titlebar.h"
 #include "app/utils/installation_method.h"
+#include "app/utils/unzip.h"
 
 enum MAINWINDOW_SIZE
 {
@@ -126,6 +129,26 @@ MainWindow::MainWindow(QWidget* parent)
           &PageConfigPortable::startDownload,
           this,
           [=, this] { start_download(INSTALLATION_METHOD::PORTABLE); });
+
+  connect(download_page,
+          &PageDownloadProgress::downloadCompleted,
+          this,
+          [=, this](QString const& file_path)
+          {
+            const auto file_dir = QFileInfo(file_path).absoluteDir();
+
+            if (auto result = unzip(file_path.toStdString(),
+                                    file_dir.absolutePath().toStdString());
+                result.success)
+            {
+              QMessageBox::information(this,
+                                       tr("Unzip Completed"),
+                                       tr("File unzipped successfully!"));
+            } else {
+              QMessageBox::warning(
+                  this, tr("Unzip Failed"), tr("Failed to unzip the file."));
+            }
+          });
 
   setAttribute(Qt::WA_DontCreateNativeAncestors);
   setFixedSize(MAINWINDOW_WIDTH, MAINWINDOW_HEIGHT);

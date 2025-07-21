@@ -5,6 +5,9 @@
 #include <QWidget>
 #include <memory>
 
+#include <qobject.h>
+#include <qtmetamacros.h>
+
 namespace Ui
 {
 class PageDownloadProgress;
@@ -24,11 +27,15 @@ public:
 
   void startDownload(INSTALLATION_METHOD method);
 
+signals:
+  void downloadCompleted(QString const& path);
+
 private:
   void updateProgress(DOWNLOAD_PROGRESS const& progress);
   Ui::PageDownloadProgress* ui;
   std::unique_ptr<QThread> _downloadThread;
   DOWNLOADER* _downloader;
+  QString _savePath;
 };
 
 #endif  // PAGEDOWNLOADPROGRESS_H

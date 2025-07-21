@@ -1,15 +1,16 @@
 #ifndef UNZIP_H
 #define UNZIP_H
 
+#include <string>
 
-class UNZIP
+struct UNZIP_RESULT
 {
-public:
-    UNZIP();
-    ~UNZIP();
-
-private:
-
+  bool success {};
+  bool is_directory {};
+  std::string full_path {};
 };
+
+UNZIP_RESULT unzip(const std::string& zipFilePath,
+                   const std::string& destinationDir);
 
 #endif
