@@ -5,7 +5,7 @@
 
 #include <fmt/format.h>
 
-#include "Installation_method.h"
+#include "installation_method.h"
 
 inline auto gen_url_from_file_name(std::string const& file_name) -> std::string
 {

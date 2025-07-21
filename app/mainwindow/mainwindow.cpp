@@ -28,7 +28,7 @@
 #include "app/pages/pagedownloadprogress.h"
 #include "app/pages/pageselectinstallmethod.h"
 #include "app/titlebar/titlebar.h"
-#include "app/utils/Installation_method.h"
+#include "app/utils/installation_method.h"
 
 
 enum MAINWINDOW_SIZE

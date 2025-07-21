@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-#include "app/utils/Installation_method.h"
+#include "app/utils/installation_method.h"
 
 namespace Ui
 {
