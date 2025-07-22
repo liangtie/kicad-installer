@@ -8,7 +8,6 @@
 #include <qobject.h>
 
 #include "app/mainwindow/mainwindow.h"
-#include "app/utils/get_latest_version.h"
 
 int main(int argc, char* argv[])
 {
