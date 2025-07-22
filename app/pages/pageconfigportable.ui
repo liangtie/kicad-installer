@@ -53,16 +53,6 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QCheckBox" name="check_unzip">
-         <property name="text">
-          <string>自动解压缩</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QCheckBox" name="check_auto_run">
          <property name="text">
           <string>下载完成自动打开</string>
