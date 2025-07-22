@@ -5,4 +5,6 @@ target_sources(
     ${CMAKE_CURRENT_LIST_DIR}/downloader.cpp
     ${CMAKE_CURRENT_LIST_DIR}/get_latest_version.cpp
     ${CMAKE_CURRENT_LIST_DIR}/unzip.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/unzip_dialog.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/unzip_dialog.h
 )

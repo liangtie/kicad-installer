@@ -32,7 +32,7 @@
 #include "app/pages/pageselectinstallmethod.h"
 #include "app/titlebar/titlebar.h"
 #include "app/utils/installation_method.h"
-#include "app/utils/unzip.h"
+#include "app/utils/unzip_dialog.h"
 
 enum MAINWINDOW_SIZE
 {
@@ -137,22 +137,8 @@ MainWindow::MainWindow(QWidget* parent)
           {
             const auto file_dir = QFileInfo(file_path).absoluteDir();
 
-            if (auto res = unzip(file_path.toStdString(),
-                                 file_dir.absolutePath().toStdString());
-                !res.success)
-
-            {
-              QMessageBox::warning(this,
-                                   "Error",
-                                   QString("Failed to unzip file: %1")
-                                       .arg(res.errorMessage.c_str()));
-
-            } else {
-              QMessageBox::information(
-                  this,
-                  "Success",
-                  QString("Successfully unzipped file: %1")
-                      .arg(file_path.toStdString().c_str()));
+            if (UNZIP_DIALOG::execUnzip(file_path, file_dir.absolutePath())) {
+              //
             }
           });
 
