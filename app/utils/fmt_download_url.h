@@ -9,7 +9,7 @@
 
 inline auto gen_url_from_file_name(std::string const& file_name) -> std::string
 {
-  return fmt::format("http://localhost:8000/{}", file_name);
+  return fmt::format("https://down.eda.cn/data/kicad-release/{}", file_name);
 }
 
 inline auto fmt_base_kicad_name(std::string const& version) -> std::string
