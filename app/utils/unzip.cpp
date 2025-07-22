@@ -8,18 +8,23 @@
 
 #include <minizip/unzip.h>
 
-bool unzip(const std::string& zipFilePath, const std::string& destinationPath)
+UNZIP_RESULT unzip(const std::string& zipFilePath,
+                   const std::string& destinationPath)
 {
+  UNZIP_RESULT result {true, ""};
+
   unzFile zipfile = unzOpen(zipFilePath.c_str());
   if (!zipfile) {
-    std::cerr << "Cannot open zip file: " << zipFilePath << std::endl;
-    return false;
+    result.success = false;
+    result.errorMessage = "Cannot open zip file: " + zipFilePath;
+    return result;
   }
 
   if (unzGoToFirstFile(zipfile) != UNZ_OK) {
-    std::cerr << "Cannot locate first file in archive." << std::endl;
+    result.success = false;
+    result.errorMessage = "Cannot locate first file in archive.";
     unzClose(zipfile);
-    return false;
+    return result;
   }
 
   do {
@@ -36,37 +41,56 @@ bool unzip(const std::string& zipFilePath, const std::string& destinationPath)
                               0)
         != UNZ_OK)
     {
-      std::cerr << "Failed to get file info." << std::endl;
+      result.success = false;
+      result.errorMessage = "Failed to get file info.";
       unzClose(zipfile);
-      return false;
+      return result;
     }
 
     std::string fullPath = destinationPath + "\\" + filename;
 
-    // If it's a directory, create it
+    // Handle directories
     if (filename[strlen(filename) - 1] == '/'
         || filename[strlen(filename) - 1] == '\\')
     {
-      std::filesystem::create_directories(fullPath);
+      std::error_code ec;
+      std::filesystem::create_directories(fullPath, ec);
+      if (ec) {
+        result.success = false;
+        result.errorMessage = "Failed to create directory: " + fullPath;
+        unzClose(zipfile);
+        return result;
+      }
       continue;
     }
 
     // Ensure parent directories exist
+    std::error_code ec;
     std::filesystem::create_directories(
-        std::filesystem::path(fullPath).parent_path());
+        std::filesystem::path(fullPath).parent_path(), ec);
+    if (ec) {
+      result.success = false;
+      result.errorMessage =
+          "Failed to create parent directories for: " + fullPath;
+      unzClose(zipfile);
+      return result;
+    }
 
     if (unzOpenCurrentFile(zipfile) != UNZ_OK) {
-      std::cerr << "Cannot open file in archive: " << filename << std::endl;
+      result.success = false;
+      result.errorMessage =
+          "Cannot open file in archive: " + std::string(filename);
       unzClose(zipfile);
-      return false;
+      return result;
     }
 
     std::ofstream outFile(fullPath, std::ios::binary);
     if (!outFile.is_open()) {
-      std::cerr << "Cannot write to file: " << fullPath << std::endl;
+      result.success = false;
+      result.errorMessage = "Cannot write to file: " + fullPath;
       unzCloseCurrentFile(zipfile);
       unzClose(zipfile);
-      return false;
+      return result;
     }
 
     const size_t bufferSize = 8192;
@@ -84,5 +108,5 @@ bool unzip(const std::string& zipFilePath, const std::string& destinationPath)
   } while (unzGoToNextFile(zipfile) == UNZ_OK);
 
   unzClose(zipfile);
-  return true;
+  return result;
 }

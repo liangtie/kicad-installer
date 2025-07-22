@@ -137,16 +137,22 @@ MainWindow::MainWindow(QWidget* parent)
           {
             const auto file_dir = QFileInfo(file_path).absoluteDir();
 
-            if (unzip(file_path.toStdString(),
-                                    file_dir.absolutePath().toStdString())
-                )
+            if (auto res = unzip(file_path.toStdString(),
+                                 file_dir.absolutePath().toStdString());
+                !res.success)
+
             {
-              QMessageBox::information(this,
-                                       tr("Unzip Completed"),
-                                       tr("File unzipped successfully!"));
+              QMessageBox::warning(this,
+                                   "Error",
+                                   QString("Failed to unzip file: %1")
+                                       .arg(res.errorMessage.c_str()));
+
             } else {
-              QMessageBox::warning(
-                  this, tr("Unzip Failed"), tr("Failed to unzip the file."));
+              QMessageBox::information(
+                  this,
+                  "Success",
+                  QString("Successfully unzipped file: %1")
+                      .arg(file_path.toStdString().c_str()));
             }
           });
 
