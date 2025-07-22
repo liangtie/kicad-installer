@@ -62,6 +62,14 @@ void PageDownloadProgress::startDownload(QString const& url,
 
 void PageDownloadProgress::updateProgress(DOWNLOAD_PROGRESS const& progress)
 {
+
+  if(progress.total == 0)
+  {
+    ui->progressBar->setValue(0);
+    ui->label_down_count->setText("正在获取文件大小...");
+    return;
+  }
+
   ui->progressBar->setValue(progress.downloaded * 100 / progress.total);
   ui->label_down_count->setText(
       fmt::format("已下载{}MB，待下载{}MB",
