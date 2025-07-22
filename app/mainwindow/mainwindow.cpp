@@ -137,9 +137,9 @@ MainWindow::MainWindow(QWidget* parent)
           {
             const auto file_dir = QFileInfo(file_path).absoluteDir();
 
-            if (auto result = unzip(file_path.toStdString(),
-                                    file_dir.absolutePath().toStdString());
-                result.success)
+            if (unzip(file_path.toStdString(),
+                                    file_dir.absolutePath().toStdString())
+                )
             {
               QMessageBox::information(this,
                                        tr("Unzip Completed"),

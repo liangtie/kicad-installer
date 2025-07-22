@@ -6,75 +6,59 @@
 
 #include "unzip.h"
 
-#include <windows.h>  // for FILE_ATTRIBUTE_DIRECTORY
+#include <minizip/unzip.h>
 
-#include "minizip/unzip.h"
-
-static auto isDirectoryEntry(const char* filename,
-                             const unz_file_info& fileInfo) -> bool
+bool unzip(const std::string& zipFilePath, const std::string& destinationPath)
 {
-  size_t len = strlen(filename);
-  if (len > 0 && (filename[len - 1] == '/' || filename[len - 1] == '\\')) {
-    return true;
-  }
-
-  return (fileInfo.external_fa & FILE_ATTRIBUTE_DIRECTORY) != 0;
-}
-
-auto unzip(const std::string& zipFilePath,
-           const std::string& destinationDir) -> UNZIP_RESULT
-{
-  UNZIP_RESULT result;
-
   unzFile zipfile = unzOpen(zipFilePath.c_str());
   if (!zipfile) {
     std::cerr << "Cannot open zip file: " << zipFilePath << std::endl;
-    result.success = false;
-    return result;
+    return false;
   }
 
   if (unzGoToFirstFile(zipfile) != UNZ_OK) {
-    std::cerr << "Cannot go to first file in zip." << std::endl;
+    std::cerr << "Cannot locate first file in archive." << std::endl;
     unzClose(zipfile);
-    result.success = false;
-    return result;
+    return false;
   }
 
-  char filename[512];
-  unz_file_info fileInfo;
+  do {
+    char filename[512];
+    unz_file_info fileInfo;
 
-  if (unzGetCurrentFileInfo(zipfile,
-                            &fileInfo,
-                            filename,
-                            sizeof(filename),
-                            nullptr,
-                            0,
-                            nullptr,
-                            0)
-      != UNZ_OK)
-  {
-    std::cerr << "Failed to get file info." << std::endl;
-    unzClose(zipfile);
-    result.success = false;
-    return result;
-  }
+    if (unzGetCurrentFileInfo(zipfile,
+                              &fileInfo,
+                              filename,
+                              sizeof(filename),
+                              nullptr,
+                              0,
+                              nullptr,
+                              0)
+        != UNZ_OK)
+    {
+      std::cerr << "Failed to get file info." << std::endl;
+      unzClose(zipfile);
+      return false;
+    }
 
-  std::string fullPath = destinationDir + "\\" + filename;
-  result.full_path = fullPath;
-  result.is_directory = isDirectoryEntry(filename, fileInfo);
+    std::string fullPath = destinationPath + "\\" + filename;
 
-  if (result.is_directory) {
-    std::filesystem::create_directories(fullPath);
-    result.success = true;
-  } else {
+    // If it's a directory, create it
+    if (filename[strlen(filename) - 1] == '/'
+        || filename[strlen(filename) - 1] == '\\')
+    {
+      std::filesystem::create_directories(fullPath);
+      continue;
+    }
+
+    // Ensure parent directories exist
     std::filesystem::create_directories(
         std::filesystem::path(fullPath).parent_path());
 
     if (unzOpenCurrentFile(zipfile) != UNZ_OK) {
-      std::cerr << "Cannot open entry in zip." << std::endl;
+      std::cerr << "Cannot open file in archive: " << filename << std::endl;
       unzClose(zipfile);
-      result.success = false;
-      return result;
+      return false;
     }
 
     std::ofstream outFile(fullPath, std::ios::binary);
@@ -82,8 +66,7 @@ auto unzip(const std::string& zipFilePath,
       std::cerr << "Cannot write to file: " << fullPath << std::endl;
       unzCloseCurrentFile(zipfile);
       unzClose(zipfile);
-      result.success = false;
-      return result;
+      return false;
     }
 
     const size_t bufferSize = 8192;
@@ -97,9 +80,9 @@ auto unzip(const std::string& zipFilePath,
 
     outFile.close();
     unzCloseCurrentFile(zipfile);
-    result.success = true;
-  }
+
+  } while (unzGoToNextFile(zipfile) == UNZ_OK);
 
   unzClose(zipfile);
-  return result;
+  return true;
 }
