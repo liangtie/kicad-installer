@@ -114,10 +114,10 @@ UNZIP_DIALOG::UNZIP_DIALOG(QString const& zipDir,
   setWindowFlags(Qt::WindowStaysOnTopHint);
 
   auto layout = new QVBoxLayout(this);
-  auto label = new QLabel("Unzipping files...", this);
+  auto label = new QLabel("正在解压文件...", this);
   layout->addWidget(label);
 
-  auto cancel = new QPushButton("Cancel", this);
+  auto cancel = new QPushButton("取消", this);
   layout->addWidget(cancel);
   connect(cancel, &QPushButton::clicked, this, &QDialog::reject);
 }
@@ -155,7 +155,7 @@ bool UNZIP_DIALOG::execUnzip(QString const& zipFile,
 
 void UNZIP_DIALOG::onProgress(int count, QString const& filename)
 {
-  setWindowTitle(QString("Unzipping %1: %2").arg(count).arg(filename));
+  setWindowTitle(QString("正在解压 %1: %2").arg(count).arg(filename));
 }
 
 void UNZIP_DIALOG::onError(QString const& msg)

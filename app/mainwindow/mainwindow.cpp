@@ -87,7 +87,7 @@ MainWindow::MainWindow(QWidget* parent)
           []
           {
             if (QMessageBox::question(
-                    nullptr, tr("Quit"), tr("Are you sure you want to quit?"))
+                    nullptr, tr("提示"), tr("确定推出吗？"))
                 == QMessageBox::Yes)
             {
               QApplication::quit();
