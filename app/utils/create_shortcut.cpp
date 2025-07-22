@@ -3,66 +3,71 @@
 
 #include "create_shortcut.h"
 
-#include <comdef.h>
-#include <shlobj.h>
-#include <shobjidl.h>
 #include <windows.h>
+#include <shlobj.h>
+#include <winnls.h> 
 
-bool create_shortcut_on_desktop(std::string const& exe_path)
+
+HRESULT CreateShellLink(LPCWSTR lpszPathObj, LPCWSTR lpszPathLink, LPCWSTR lpszDesc)
 {
-  // Convert std::string to wide string
-  std::wstring w_exe_path(exe_path.begin(), exe_path.end());
+    HRESULT hres;
+    IShellLink* psl;
 
-  // Initialize COM
-  HRESULT hr = CoInitialize(nullptr);
-  if (FAILED(hr)) {
-    return false;
-  }
+    // Initialize COM
+    hres = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
+    if (SUCCEEDED(hres))
+    {
+        // Create an IShellLink object
+        hres = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (LPVOID*)&psl);
+        if (SUCCEEDED(hres))
+        {
+            IPersistFile* ppf;
 
-  // Get desktop path
-  wchar_t desktop_path[MAX_PATH];
-  if (FAILED(
-          SHGetFolderPathW(nullptr, CSIDL_DESKTOP, nullptr, 0, desktop_path)))
-  {
-    CoUninitialize();
-    return false;
-  }
+            // Set the path to the shortcut target
+            psl->SetPath(lpszPathObj);
+            // Set the description for the shortcut
+            psl->SetDescription(lpszDesc);
 
-  // Extract filename from exe_path
-  std::filesystem::path p(exe_path);
-  std::wstring filename = p.stem().wstring();
+            // Query for the IPersistFile interface
+            hres = psl->QueryInterface(IID_IPersistFile, (LPVOID*)&ppf);
+            if (SUCCEEDED(hres))
+            {
+                // Save the shortcut to the specified file
+                hres = ppf->Save(lpszPathLink, TRUE);
+                ppf->Release();
+            }
+            psl->Release();
+        }
+        CoUninitialize();
+    }
+    return hres;
+}
 
-  // Build full path for the shortcut
-  std::wstring shortcut_path =
-      std::wstring(desktop_path) + L"\\" + filename + L".lnk";
 
-  // Create IShellLink object
-  IShellLinkW* pShellLink = nullptr;
-  hr = CoCreateInstance(CLSID_ShellLink,
-                        nullptr,
-                        CLSCTX_INPROC_SERVER,
-                        IID_IShellLinkW,
-                        reinterpret_cast<void**>(&pShellLink));
-  if (FAILED(hr)) {
-    CoUninitialize();
-    return false;
-  }
+bool create_shortcut_on_desktop(const std::string& exe_path)
+{
+    // Get desktop folder path
+    wchar_t desktopPath[MAX_PATH];
+    if (FAILED(SHGetFolderPathW(NULL, CSIDL_DESKTOP, NULL, 0, desktopPath)))
+        return false;
 
-  // Set the path to the .exe file
-  pShellLink->SetPath(w_exe_path.c_str());
-  pShellLink->SetDescription(L"Shortcut to application");
+    // Convert input path to wide string
+    std::filesystem::path exePathUtf8(exe_path);
+    std::wstring wExePath = exePathUtf8.wstring();
 
-  // Query for the IPersistFile interface for saving the shortcut
-  IPersistFile* pPersistFile = nullptr;
-  hr = pShellLink->QueryInterface(IID_IPersistFile,
-                                  reinterpret_cast<void**>(&pPersistFile));
-  if (SUCCEEDED(hr)) {
-    hr = pPersistFile->Save(shortcut_path.c_str(), TRUE);
-    pPersistFile->Release();
-  }
+    // Construct shortcut path: Desktop\YourApp.lnk
+    std::wstring shortcutName = exePathUtf8.stem().wstring() + L".lnk";
+    std::wstring shortcutFullPath = std::filesystem::path(desktopPath) / shortcutName;
 
-  pShellLink->Release();
-  CoUninitialize();
+    // Description for shortcut
+    std::wstring description = L"Shortcut to " + exePathUtf8.stem().wstring();
 
-  return SUCCEEDED(hr);
+    // Call helper
+    HRESULT hr = CreateShellLink(
+        wExePath.c_str(),
+        shortcutFullPath.c_str(),
+        description.c_str()
+    );
+
+    return SUCCEEDED(hr);
 }
