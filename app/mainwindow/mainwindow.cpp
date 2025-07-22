@@ -204,13 +204,11 @@ MainWindow::MainWindow(QWidget* parent)
                   break;
                 }
                 case INSTALLER: {
-                  if (auto kicad_installer_exe = find_file_in_dir(
-                          extract_dir.toStdString(),
-                          fmt_base_kicad_name(_latestVersion) + ".exe"))
+                  if (auto kicad_installer_exe = find_kicad_huaqiu_installer(
+                          extract_dir.toStdString()))
                   {
                     QProcess::startDetached(kicad_installer_exe->c_str());
                   }
-
                   break;
                 }
               }
