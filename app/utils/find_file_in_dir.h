@@ -18,13 +18,10 @@ inline auto find_file_in_dir(std::string const& dir_path,
       }
     }
   } catch (fs::filesystem_error const& e) {
-    // Log or handle error if needed
   }
 
-  return {};  // Return empty string if not found
+  return {};
 }
-
-// ...existing code...
 
 inline auto find_kicad_huaqiu_installer(std::string const& dir_path)
     -> std::optional<std::string>
@@ -41,7 +38,6 @@ inline auto find_kicad_huaqiu_installer(std::string const& dir_path)
       }
     }
   } catch (fs::filesystem_error const&) {
-    // Handle error if needed
   }
   return {};
 }
