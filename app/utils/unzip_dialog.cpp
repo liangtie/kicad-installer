@@ -111,6 +111,7 @@ UNZIP_DIALOG::UNZIP_DIALOG(QString const& zipDir,
 {
   setWindowTitle("Unzipping...");
   resize(400, 100);
+  setWindowFlags(Qt::WindowStaysOnTopHint);
 
   auto layout = new QVBoxLayout(this);
   auto label = new QLabel("Unzipping files...", this);
