@@ -67,7 +67,7 @@ void DOWNLOADER::downloadFile()
   unsigned long long lastUpdateTime = 0;
 
   cpr::WriteCallback callback = {
-      [this, &ofs, &timer, &lastUpdateTime](std::string data,
+      [this, &ofs, &timer, &lastUpdateTime](const std::string_view& data,
                                             intptr_t /* userdata */) -> bool
       {
         if (m_cancelled->load()) {
