@@ -6,11 +6,13 @@
 
 #include <qdebug.h>
 #include <qobject.h>
+#include <qtenvironmentvariables.h>
 
 #include "app/mainwindow/mainwindow.h"
 
 int main(int argc, char* argv[])
 {
+  qputenv("QT_QPA_PLATFORM","windows:darkmode=0");
   QApplication::setHighDpiScaleFactorRoundingPolicy(
       Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
   QCoreApplication::setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
