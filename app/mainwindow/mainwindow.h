@@ -3,7 +3,9 @@
 
 #include <QMainWindow>
 #include <memory>
+#include <optional>
 
+#include <qobject.h>
 #include <qstackedwidget.h>
 
 struct INSTALLATION_CONFIG;
@@ -28,5 +30,7 @@ private:
   QWK::WidgetWindowAgent* _windowAgent;
   QStackedWidget* _stackedWidget;
   std::unique_ptr<INSTALLATION_CONFIG> _installationConfig;
+  std::optional<QString> _downloadFilePath;
+  std::string _latestVersion;
 };
 #endif  // MAINWINDOW_H

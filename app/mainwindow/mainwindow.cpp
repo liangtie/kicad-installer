@@ -4,7 +4,9 @@
 #include <QFileInfo>
 #include <QLabel>
 #include <QMovie>
+#include <QProcess>
 #include <QStackedWidget>
+#include <QStandardPaths>
 #include <QVBoxLayout>
 
 #include "mainwindow.h"
@@ -14,6 +16,7 @@
 #include <qdesktopservices.h>
 #include <qdir.h>
 #include <qmessagebox.h>
+#include <qprocess.h>
 #include <qurl.h>
 
 #include <QtCore/QDebug>
@@ -31,6 +34,10 @@
 #include "app/pages/pagedownloadprogress.h"
 #include "app/pages/pageselectinstallmethod.h"
 #include "app/titlebar/titlebar.h"
+#include "app/utils/create_shortcut.h"
+#include "app/utils/find_file_in_dir.h"
+#include "app/utils/fmt_download_url.h"
+#include "app/utils/get_latest_version.h"
 #include "app/utils/installation_method.h"
 #include "app/utils/unzip_dialog.h"
 
@@ -45,6 +52,11 @@ enum MAINWINDOW_SIZE
   MAINWINDOW_WIDTH = 800,
   MAINWINDOW_HEIGHT = 600
 };
+
+inline auto fmt_save_path(QString saveDir, QString const& filename) -> QString
+{
+  return saveDir + "/" + filename;
+}
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
@@ -112,8 +124,27 @@ MainWindow::MainWindow(QWidget* parent)
 
   auto start_download = [this, download_page](INSTALLATION_METHOD method)
   {
+    const auto version = get_latest_version();
+
+    if (!version) {
+      QMessageBox::warning(this, "Error", "Failed to get the latest version.");
+      return;
+    }
+
+    _latestVersion = *version;
+
+    const auto file_name = fmt_download_file_name(method, _latestVersion);
+    const auto url = gen_url_from_file_name(file_name);
+
+    _downloadFilePath =
+        fmt_save_path(method == INSTALLATION_METHOD::PORTABLE
+                          ? _installationConfig->portableConfig.save_path
+                          : QStandardPaths::writableLocation(
+                                QStandardPaths::DownloadLocation),
+                      +file_name.c_str());
+
     _stackedWidget->setCurrentIndex(PAGE_DOWNLOAD_PROGRESS);
-    download_page->startDownload(method);
+    download_page->startDownload(url.c_str(), *_downloadFilePath);
   };
 
   connect(select_page,
@@ -146,12 +177,43 @@ MainWindow::MainWindow(QWidget* parent)
   connect(download_page,
           &PageDownloadProgress::downloadCompleted,
           this,
-          [=, this](QString const& file_path)
+          [=, this]
           {
-            const auto file_dir = QFileInfo(file_path).absoluteDir();
+            const auto extract_dir =
+                QFileInfo(*_downloadFilePath).absoluteDir().absolutePath() + "/"
+                + fmt_base_kicad_name(_latestVersion).c_str();
 
-            if (UNZIP_DIALOG::execUnzip(file_path, file_dir.absolutePath())) {
-              //
+            if (UNZIP_DIALOG::execUnzip(*_downloadFilePath, extract_dir)) {
+              switch (_installationConfig->method) {
+                case PORTABLE: {
+                  auto kicad_exe =
+                      find_file_in_dir(extract_dir.toStdString(), "kicad.exe");
+
+                  if (!kicad_exe) {
+                    return;
+                  }
+
+                  if (_installationConfig->portableConfig.create_shortcut) {
+                    create_shortcut_on_desktop(*kicad_exe);
+                  }
+
+                  if (_installationConfig->portableConfig.auto_start) {
+                    QProcess::startDetached(kicad_exe->c_str());
+                  }
+
+                  break;
+                }
+                case INSTALLER: {
+                  if (auto kicad_installer_exe = find_file_in_dir(
+                          extract_dir.toStdString(),
+                          fmt_base_kicad_name(_latestVersion) + ".exe"))
+                  {
+                    QProcess::startDetached(kicad_installer_exe->c_str());
+                  }
+
+                  break;
+                }
+              }
             }
           });
 

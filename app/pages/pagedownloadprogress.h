@@ -6,6 +6,7 @@
 #include <memory>
 #include <optional>
 
+#include <qcontainerfwd.h>
 #include <qobject.h>
 #include <qtmetamacros.h>
 
@@ -26,12 +27,10 @@ public:
   explicit PageDownloadProgress(QWidget* parent = nullptr);
   ~PageDownloadProgress();
 
-  void setSaveDir(const QString& path) { _saveDir = path; }
-
-  void startDownload(INSTALLATION_METHOD method);
+  void startDownload(QString const& url, QString const& save_path);
 
 signals:
-  void downloadCompleted(QString const& path);
+  void downloadCompleted();
 
 private:
   void updateProgress(DOWNLOAD_PROGRESS const& progress);
