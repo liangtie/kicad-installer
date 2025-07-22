@@ -1,71 +1,65 @@
-QWidget{
-    font-family: "Microsoft YaHei";
+QWidget {
+  font-family: "Microsoft YaHei";
 }
 
-QToolButton[system-button=true] {
-    min-width: 30px;
-    border: none;
-    padding: 0;
-    background-color: transparent;
+QToolButton[system-button="true"] {
+  min-width: 30px;
+  border: none;
+  padding: 0;
+  background-color: transparent;
 }
 
 QToolButton#btn_min {
-    qproperty-iconNormal: url(":/window-bar/minimize.svg");
+  qproperty-iconnormal: url(":/window-bar/minimize.svg");
 }
 
 QToolButton#btn_min:hover,
 QToolButton#btn_min:pressed {
-    background-color: rgba(0, 0, 0, 15%);
+  background-color: rgba(0, 0, 0, 15%);
 }
 
 QToolButton#btn_close {
-    qproperty-iconNormal: url(":/window-bar/close.svg");
+  qproperty-iconnormal: url(":/window-bar/close.svg");
 }
 
 QToolButton#btn_close:hover,
 QToolButton#btn_close:pressed {
-    background-color: #e81123;
+  background-color: #e81123;
 }
-
 
 MainWindow {
-    background-color: #F3F3F3;
+  background-color: #f3f3f3;
 }
 
-MainWindow[custom-style=true] {
-    background-color: transparent;
+MainWindow[custom-style="true"] {
+  background-color: transparent;
 }
 
 QPushButton#btn_installer,
 QPushButton#btn_portable {
-    background-color: #117bc2;
-    min-height: 60px;
-    border-radius: 6px;
-    color: white;
-    font-size: 32px;
+  background-color: #117bc2;
+  min-height: 60px;
+  border-radius: 6px;
+  color: white;
+  font-size: 32px;
 }
 
 QPushButton#btn_installer:hover,
 QPushButton#btn_portable:hover {
-    background-color: #59ace4;
+  background-color: #59ace4;
 }
 
-
-QPushButton#btn_start_download{
-    background-color: #117bc2;
-    border-radius: 6px;
-    color: white;
-    font-size: 24px;
-    min-height: 48px;
-    padding: 6px;
+QPushButton#btn_start_download,
+QPushButton#btn_open_dir {
+  background-color: #117bc2;
+  border-radius: 6px;
+  color: white;
+  font-size: 24px;
+  min-height: 48px;
+  padding: 6px;
 }
 
-QPushButton#btn_start_download:hover
- {
-    background-color: #59ace4;
+QPushButton#btn_start_download:hover,
+QPushButton#btn_open_dir:hover {
+  background-color: #59ace4;
 }
-
-
-
-
-

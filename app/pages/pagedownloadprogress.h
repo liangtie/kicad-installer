@@ -37,7 +37,6 @@ private:
   Ui::PageDownloadProgress* ui;
   std::unique_ptr<QThread> _downloadThread;
   DOWNLOADER* _downloader;
-  std::optional<QString> _saveDir;
   QString _downloadFilePath;
 };
 
