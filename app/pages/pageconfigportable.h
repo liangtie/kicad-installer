@@ -3,7 +3,16 @@
 
 #include <QWidget>
 
-#include <qtmetamacros.h>
+#include <qobject.h>
+
+struct PortableConfig
+{
+  QString save_path;
+  bool create_shortcut;
+  bool auto_start;
+};
+
+Q_DECLARE_METATYPE(PortableConfig)
 
 namespace Ui
 {
@@ -18,7 +27,6 @@ public:
   explicit PageConfigPortable(QWidget* parent = nullptr);
   ~PageConfigPortable();
 
-
   bool eventFilter(QObject* obj, QEvent* event) override;
 
 private:
@@ -28,7 +36,7 @@ private:
 
 signals:
 
-  void startDownload();
+  void startDownload(PortableConfig const& config);
 };
 
 #endif  // PAGECONFIGPORTABLE_H

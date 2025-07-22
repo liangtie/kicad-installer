@@ -34,6 +34,12 @@
 #include "app/utils/installation_method.h"
 #include "app/utils/unzip_dialog.h"
 
+struct INSTALLATION_CONFIG
+{
+  PortableConfig portableConfig;
+  INSTALLATION_METHOD method;
+};
+
 enum MAINWINDOW_SIZE
 {
   MAINWINDOW_WIDTH = 800,
@@ -42,6 +48,7 @@ enum MAINWINDOW_SIZE
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
+    , _installationConfig(std::make_unique<INSTALLATION_CONFIG>())
 {
   _windowAgent = new QWK::WidgetWindowAgent(this);
   _windowAgent->setup(this);
@@ -120,6 +127,7 @@ MainWindow::MainWindow(QWidget* parent)
                 break;
               }
               case INSTALLER: {
+                _installationConfig->method = INSTALLATION_METHOD::INSTALLER;
                 start_download(INSTALLATION_METHOD::INSTALLER);
                 break;
               }
@@ -128,7 +136,12 @@ MainWindow::MainWindow(QWidget* parent)
   connect(portable_page,
           &PageConfigPortable::startDownload,
           this,
-          [=, this] { start_download(INSTALLATION_METHOD::PORTABLE); });
+          [=, this](PortableConfig const& config)
+          {
+            _installationConfig->portableConfig = config;
+            _installationConfig->method = INSTALLATION_METHOD::PORTABLE;
+            start_download(INSTALLATION_METHOD::PORTABLE);
+          });
 
   connect(download_page,
           &PageDownloadProgress::downloadCompleted,

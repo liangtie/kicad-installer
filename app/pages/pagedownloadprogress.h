@@ -4,6 +4,7 @@
 #include <QThread>
 #include <QWidget>
 #include <memory>
+#include <optional>
 
 #include <qobject.h>
 #include <qtmetamacros.h>
@@ -25,6 +26,8 @@ public:
   explicit PageDownloadProgress(QWidget* parent = nullptr);
   ~PageDownloadProgress();
 
+  void setSaveDir(const QString& path) { _saveDir = path; }
+
   void startDownload(INSTALLATION_METHOD method);
 
 signals:
@@ -35,7 +38,8 @@ private:
   Ui::PageDownloadProgress* ui;
   std::unique_ptr<QThread> _downloadThread;
   DOWNLOADER* _downloader;
-  QString _savePath;
+  std::optional<QString> _saveDir;
+  QString _downloadFilePath;
 };
 
 #endif  // PAGEDOWNLOADPROGRESS_H

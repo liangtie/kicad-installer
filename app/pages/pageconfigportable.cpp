@@ -39,7 +39,11 @@ PageConfigPortable::PageConfigPortable(QWidget* parent)
               return;
             }
 
-            emit startDownload();
+            emit startDownload(PortableConfig {
+                save_path,
+                ui->check_shortcut->isChecked(),
+                ui->check_auto_run->isChecked()
+            });
           });
 }
 
