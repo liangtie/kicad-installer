@@ -33,6 +33,7 @@ PageDownloadProgress::~PageDownloadProgress()
 void PageDownloadProgress::startDownload(QString const& url,
                                          QString const& save_path)
 {
+  _downloadThread = std::make_unique<QThread>();
   _downloader = new DOWNLOADER(url, save_path);
 
   _downloader->moveToThread(_downloadThread.get());
