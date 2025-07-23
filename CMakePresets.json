@@ -13,14 +13,15 @@
                 "rhs": "Windows"
             },
             "cacheVariables": {
-                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+                "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreaded$<$<CONFIG:Debug>:Debug>"
             }
         },
         {
             "name": "vcpkg-win64-static",
             "hidden": true,
             "cacheVariables": {
-                "VCPKG_TARGET_TRIPLET": "x64-windows-static-md"
+                "VCPKG_TARGET_TRIPLET": "x64-windows-static"
             }
         },
         {
@@ -56,7 +57,7 @@
                 "vcpkg-win64-static"
             ],
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "MinSizeRel"
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
             }
         }
     ],
