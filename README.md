@@ -19,3 +19,7 @@ https://windowsforum.com/threads/get-all-cli-parameters-switches-from-nsis-insta
 .\kicad-huaqiu-9.0.3-r1-x86_64.exe  /allusers /D=C:\kicad
 
 .\kicad-huaqiu-9.0.3-r1-x86_64.exe  /currentuser /D=C:\kicad
+
+## Compress
+
+upx --lzma .\kicad-installer.exe
