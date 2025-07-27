@@ -21,6 +21,10 @@ UNZIP_WORKER::UNZIP_WORKER(QString zipFile, QString destDir)
 
 void UNZIP_WORKER::run()
 {
+  int count = 0;
+
+  emit unzipProgress(count + 1, "Preparing to extract: " + _zipFile);
+
   unzFile zipfile = unzOpen(_zipFile.toStdString().c_str());
   if (!zipfile) {
     emit unzipError("Cannot open zip file: " + _zipFile);
@@ -33,7 +37,6 @@ void UNZIP_WORKER::run()
     return;
   }
 
-  int count = 0;
   do {
     char filename[512];
     unz_file_info fileInfo;
