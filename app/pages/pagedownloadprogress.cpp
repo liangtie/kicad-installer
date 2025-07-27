@@ -60,11 +60,14 @@ void PageDownloadProgress::startDownload(QString const& url,
   _downloadThread->start();
 }
 
+void PageDownloadProgress::setExtractDir(QString const& path)
+{
+  _extractDir = path;
+}
+
 void PageDownloadProgress::updateProgress(DOWNLOAD_PROGRESS const& progress)
 {
-
-  if(progress.total == 0)
-  {
+  if (progress.total == 0) {
     ui->progressBar->setValue(0);
     ui->label_down_count->setText("正在获取文件大小...");
     return;
@@ -79,9 +82,11 @@ void PageDownloadProgress::updateProgress(DOWNLOAD_PROGRESS const& progress)
 
   QString speedText;
   if (progress.speed >= MB) {
-    speedText = QString("下载速度:") + QString::number(progress.speed / double(MB), 'f', 2) + " MB/s";
+    speedText = QString("下载速度:")
+        + QString::number(progress.speed / double(MB), 'f', 2) + " MB/s";
   } else {
-    speedText = QString("下载速度:") + QString::number(progress.speed / double(KB), 'f', 2) + " KB/s";
+    speedText = QString("下载速度:")
+        + QString::number(progress.speed / double(KB), 'f', 2) + " KB/s";
   }
   ui->label_speed->setText(speedText);
 
@@ -95,8 +100,16 @@ void PageDownloadProgress::updateProgress(DOWNLOAD_PROGRESS const& progress)
             [this]()
             {
               // extract the directory from the file path
-              QString dir = QFileInfo(_downloadFilePath).absolutePath();
-              QDesktopServices::openUrl(QUrl::fromLocalFile(dir));
+
+              QDesktopServices::openUrl(QUrl::fromLocalFile((
+                  [this]
+                  {
+                    if (_extractDir.has_value()) {
+                      return *_extractDir;
+                    }
+
+                    return QFileInfo(_downloadFilePath).absolutePath();
+                  })()));
             });
   }
 

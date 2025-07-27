@@ -29,6 +29,8 @@ public:
 
   void startDownload(QString const& url, QString const& save_path);
 
+  void setExtractDir(QString const& path);
+
 signals:
   void downloadCompleted();
 
@@ -38,6 +40,7 @@ private:
   std::unique_ptr<QThread> _downloadThread;
   DOWNLOADER* _downloader;
   QString _downloadFilePath;
+  std::optional<QString> _extractDir;
 };
 
 #endif  // PAGEDOWNLOADPROGRESS_H

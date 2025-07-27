@@ -184,6 +184,9 @@ MainWindow::MainWindow(QWidget* parent)
                 + fmt_base_kicad_name(_latestVersion).c_str();
 
             if (UNZIP_DIALOG::execUnzip(*_downloadFilePath, extract_dir)) {
+
+              download_page->setExtractDir(extract_dir);
+
               switch (_installationConfig->method) {
                 case PORTABLE: {
                   auto kicad_exe =
