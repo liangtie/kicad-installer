@@ -88,3 +88,37 @@ QProgressBar QLabel {
   color: black;
   padding: 0px 5px;
 }
+
+QPushButton#btn_change_dir {
+  width: 84px;
+  height: 32px;
+  background: #ffffff;
+  border: 1px solid #e4e4e4;
+  border-radius: 4px;
+}
+
+QPushButton#btn_change_dir:hover {
+  width: 84px;
+  height: 32px;
+  background: #f2f8ff;
+  border: 1px solid #007bff;
+  border-radius: 4px;
+}
+
+QLineEdit#le_download_dir {
+  width: 360px;
+  height: 32px;
+  background: #ffffff;
+  border: 1px solid #e4e4e4;
+  border-radius: 4px;
+}
+
+QCheckBox {
+  width: 96px;
+  height: 17px;
+  font-size: 12px;
+  font-family: PingFang SC, PingFang SC-Regular;
+  font-weight: 400;
+  text-align: left;
+  color: #333333;
+}
