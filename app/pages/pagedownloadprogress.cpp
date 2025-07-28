@@ -73,6 +73,8 @@ void PageDownloadProgress::updateProgress(DOWNLOAD_PROGRESS const& progress)
   }
 
   ui->progressBar->setValue(progress.downloaded * 100 / progress.total);
+  ui->lb_progress->setText(
+      fmt::format("{}%", progress.downloaded * 100 / progress.total).c_str());
   ui->label_down_count->setText(
       fmt::format("已下载{}MB，待下载{}MB",
                   progress.downloaded / MB,
