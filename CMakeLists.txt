@@ -41,6 +41,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         app/pages/pageconfigportable.h app/pages/pageconfigportable.cpp app/pages/pageconfigportable.ui
         app/pages/pagedownloadprogress.h app/pages/pagedownloadprogress.cpp app/pages/pagedownloadprogress.ui
         app/logo/logowidget.h app/logo/logowidget.cpp app/logo/logowidget.ui
+        app/pages/pageopendownloaddir.h app/pages/pageopendownloaddir.cpp app/pages/pageopendownloaddir.ui
+        app/pages/pageselectsavepath.h app/pages/pageselectsavepath.cpp app/pages/pageselectsavepath.ui
+        app/pages/pageconfcontainer.h app/pages/pageconfcontainer.cpp app/pages/pageconfcontainer.ui
     )
 
     # Define target properties for Android with Qt 6 as:

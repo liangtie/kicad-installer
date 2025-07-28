@@ -3,7 +3,6 @@
 #include <QDesktopServices>
 #include <QFileInfo>
 #include <QLabel>
-#include <QMovie>
 #include <QProcess>
 #include <QStackedWidget>
 #include <QStandardPaths>
@@ -40,6 +39,7 @@
 #include "app/utils/get_latest_version.h"
 #include "app/utils/installation_method.h"
 #include "app/utils/unzip_dialog.h"
+#include "app/logo/logowidget.h"
 
 struct INSTALLATION_CONFIG
 {
@@ -99,15 +99,9 @@ MainWindow::MainWindow(QWidget* parent)
           this,
           [] { QDesktopServices::openUrl(QUrl("https://kicad.eda.cn/")); });
 
-  QMovie* movie = new QMovie(":/icons/huaqiu-animate.gif");
-  QLabel* label = new QLabel();
-  label->setScaledContents(true);
-  label->setMovie(movie);
-  movie->start();
-  auto lay_img = new QVBoxLayout();
-  lay_img->setContentsMargins(8, 0, 8, 0);
-  lay_img->addWidget(label);
-  layout->addLayout(lay_img);
+
+
+  layout->addWidget(new LogoWidget);
 
   _stackedWidget = new QStackedWidget(container_widget);
   layout->addWidget(_stackedWidget, 1);

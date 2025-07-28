@@ -5,7 +5,7 @@ QWidget {
 QToolButton[system-button="true"] {
   min-width: 30px;
   border: none;
-  padding: 0;
+  padding: 2px;
   background-color: transparent;
 }
 
