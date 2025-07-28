@@ -33,37 +33,6 @@
     <number>6</number>
    </property>
    <item>
-    <widget class="QLabel" name="label_icon">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>40</width>
-       <height>16</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>40</width>
-       <height>16</height>
-      </size>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="pixmap">
-      <pixmap resource="../../resources/kicad_installer.qrc">:/icons/kicad_x_huaqiu.png</pixmap>
-     </property>
-     <property name="scaledContents">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item>
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Orientation::Horizontal</enum>
@@ -118,8 +87,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../../resources/kicad_installer.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
