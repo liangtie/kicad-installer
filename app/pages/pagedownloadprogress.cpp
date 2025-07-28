@@ -27,7 +27,6 @@ PageDownloadProgress::PageDownloadProgress(QWidget* parent)
     , ui(new Ui::PageDownloadProgress)
 {
   ui->setupUi(this);
-  ui->btn_open_dir->hide();
 }
 
 PageDownloadProgress::~PageDownloadProgress()
@@ -93,24 +92,6 @@ void PageDownloadProgress::updateProgress(DOWNLOAD_PROGRESS const& progress)
   if (progress.finished) {
     emit downloadCompleted();
     ui->widget_progress->hide();
-    ui->btn_open_dir->show();
-    connect(ui->btn_open_dir,
-            &QPushButton::clicked,
-            this,
-            [this]()
-            {
-              // extract the directory from the file path
-
-              QDesktopServices::openUrl(QUrl::fromLocalFile((
-                  [this]
-                  {
-                    if (_extractDir.has_value()) {
-                      return *_extractDir;
-                    }
-
-                    return QFileInfo(_downloadFilePath).absolutePath();
-                  })()));
-            });
   }
 
   if (progress.error) {

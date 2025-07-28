@@ -2,6 +2,9 @@
 #define PAGEOPENDOWNLOADDIR_H
 
 #include <QWidget>
+#include <optional>
+
+#include <qobject.h>
 
 namespace Ui
 {
@@ -18,6 +21,8 @@ public:
 
 private:
   Ui::PageOpenDownloadDir* ui;
+  QString _downloadFilePath;
+  std::optional<QString> _extractDir;
 };
 
 #endif  // PAGEOPENDOWNLOADDIR_H

@@ -49,8 +49,8 @@ struct INSTALLATION_CONFIG
 
 enum MAINWINDOW_SIZE
 {
-  MAINWINDOW_WIDTH = 800,
-  MAINWINDOW_HEIGHT = 600
+  MAINWINDOW_WIDTH = 672,
+  MAINWINDOW_HEIGHT = 420
 };
 
 inline auto fmt_save_path(QString saveDir, QString const& filename) -> QString

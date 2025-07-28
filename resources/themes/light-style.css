@@ -35,23 +35,25 @@ MainWindow[custom-style="true"] {
   background-color: transparent;
 }
 
-QPushButton#btn_installer,
-QPushButton#btn_portable {
-  background-color: #117bc2;
+QPushButton#btn_start_installer,
+QPushButton#btn_start_portable,
+QPushButton#btn_open_dir {
+  background-color: #007bff;
   min-height: 60px;
   border-radius: 6px;
   color: white;
   font-size: 32px;
 }
 
-QPushButton#btn_installer:hover,
-QPushButton#btn_portable:hover {
-  background-color: #59ace4;
+QPushButton#btn_start_installer:hover,
+QPushButton#btn_start_portable:hover,
+QPushButton#btn_open_dir:hover {
+  background-color: #0069D9;
 }
 
 QPushButton#btn_start_download,
 QPushButton#btn_open_dir {
-  background-color: #117bc2;
+  background-color: #007bff;
   border-radius: 6px;
   color: white;
   font-size: 24px;
@@ -59,31 +61,30 @@ QPushButton#btn_open_dir {
   padding: 6px;
 }
 
-QPushButton#btn_start_download:hover,
-QPushButton#btn_open_dir:hover {
-  background-color: #59ace4;
+QPushButton#btn_start_download:hover {
+  background-color: #0069D9;
 }
 
 /* Style for the Progress Bar Container */
 QProgressBar {
-    border: none;
-    background-color: #e0e0e0; /* Light gray background */
-    text-align: center; /* Center the text */
-    color: black; /* Text color */
-    font-size: 14px; /* Text size */
-    border-radius: 4px; /* Rounded corners */
+  border: none;
+  background-color: #e0e0e0; /* Light gray background */
+  text-align: center; /* Center the text */
+  color: black; /* Text color */
+  font-size: 14px; /* Text size */
+  border-radius: 4px; /* Rounded corners */
 }
 
 /* Style for the Progress Indicator */
 QProgressBar::chunk {
-    background-color: #1e90ff; /* Blue progress indicator */
-    width: 1px; /* Width of the chunk */
-    margin: 0px; /* Margin between chunks */
-    border-radius: 4px; /* Rounded corners for the chunk */
+  background-color: #007bff; /* Blue progress indicator */
+  width: 1px; /* Width of the chunk */
+  margin: 0px; /* Margin between chunks */
+  border-radius: 4px; /* Rounded corners for the chunk */
 }
 
 /* Additional styling for the text inside the progress bar */
 QProgressBar QLabel {
-    color: black; /* Text color */
-    padding: 0px 5px; /* Padding around the text */
+  color: black; /* Text color */
+  padding: 0px 5px; /* Padding around the text */
 }

@@ -57,6 +57,12 @@
          <height>50</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <bold>false</bold>
+         <kerning>false</kerning>
+        </font>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -75,7 +81,10 @@
      <property name="font">
       <font>
        <pointsize>20</pointsize>
-       <fontweight>DemiBold</fontweight>
+       <bold>false</bold>
+       <underline>false</underline>
+       <strikeout>false</strikeout>
+       <kerning>false</kerning>
       </font>
      </property>
      <property name="text">

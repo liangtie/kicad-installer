@@ -8,15 +8,16 @@ PageSelectInstallMethod::PageSelectInstallMethod(QWidget* parent)
     , ui(new Ui::PageSelectInstallMethod)
 {
   ui->setupUi(this);
-  for (const auto btn : {ui->btn_installer, ui->btn_portable}) {
-    connect(btn,
-            &QPushButton::clicked,
-            [this, btn]()
-            {
-              emit installMethodSelected(btn == ui->btn_installer ? INSTALLER
-                                                                  : PORTABLE);
-            });
-  }
+  ui->lay_main->setAlignment(Qt::AlignCenter);
+  // for (const auto btn : {ui->btn_installer, ui->btn_portable}) {
+  //   connect(btn,
+  //           &QPushButton::clicked,
+  //           [this, btn]()
+  //           {
+  //             emit installMethodSelected(btn == ui->btn_installer ? INSTALLER
+  //                                                                 : PORTABLE);
+  //           });
+  // }
 }
 
 PageSelectInstallMethod::~PageSelectInstallMethod()
