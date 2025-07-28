@@ -7,7 +7,6 @@
 
 struct PortableConfig
 {
-  QString save_path;
   bool create_shortcut;
   bool auto_start;
 };

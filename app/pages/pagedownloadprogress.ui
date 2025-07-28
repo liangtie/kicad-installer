@@ -107,7 +107,7 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QLabel" name="label">
+          <widget class="QLabel" name="lb_progress">
            <property name="text">
             <string>0%</string>
            </property>

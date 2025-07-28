@@ -80,8 +80,6 @@
     <widget class="QLabel" name="lb_title">
      <property name="font">
       <font>
-       <family>PingFang SC, PingFang SC-Bold</family>
-       <pointsize>20</pointsize>
        <underline>false</underline>
        <strikeout>false</strikeout>
        <kerning>false</kerning>

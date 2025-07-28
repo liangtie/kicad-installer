@@ -78,6 +78,9 @@
      <property name="text">
       <string>更改</string>
      </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
   </layout>

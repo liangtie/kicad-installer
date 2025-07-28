@@ -28,7 +28,9 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStyle>
 
+#include "app/logo/logowidget.h"
 #include "app/pages/page_index.h"
+#include "app/pages/pageconfcontainer.h"
 #include "app/pages/pageconfigportable.h"
 #include "app/pages/pagedownloadprogress.h"
 #include "app/pages/pageselectinstallmethod.h"
@@ -39,18 +41,19 @@
 #include "app/utils/get_latest_version.h"
 #include "app/utils/installation_method.h"
 #include "app/utils/unzip_dialog.h"
-#include "app/logo/logowidget.h"
 
 struct INSTALLATION_CONFIG
 {
   PortableConfig portableConfig;
   INSTALLATION_METHOD method;
+  QString downloadDir;
 };
 
 enum MAINWINDOW_SIZE
 {
   MAINWINDOW_WIDTH = 672,
-  MAINWINDOW_HEIGHT = 420
+  MAINWINDOW_HEIGHT = 420,
+  SIDE_MARGIN = 70
 };
 
 inline auto fmt_save_path(QString saveDir, QString const& filename) -> QString
@@ -86,12 +89,7 @@ MainWindow::MainWindow(QWidget* parent)
           this,
           []
           {
-            if (QMessageBox::question(
-                    nullptr, tr("提示"), tr("确定推出吗？"))
-                == QMessageBox::Yes)
-            {
-              QApplication::quit();
-            }
+            QApplication::quit();
           });
   connect(minButton, &QPushButton::clicked, this, &QWidget::showMinimized);
   connect(helpButton,
@@ -99,16 +97,17 @@ MainWindow::MainWindow(QWidget* parent)
           this,
           [] { QDesktopServices::openUrl(QUrl("https://kicad.eda.cn/")); });
 
-
-
   layout->addWidget(new LogoWidget);
 
   _stackedWidget = new QStackedWidget(container_widget);
-  layout->addWidget(_stackedWidget, 1);
+  auto lay_stackedWidget = new QVBoxLayout;
+  lay_stackedWidget->setContentsMargins({SIDE_MARGIN, 0, SIDE_MARGIN, 0});
+  lay_stackedWidget->addWidget(_stackedWidget);
+  layout->addLayout(lay_stackedWidget, 1);
   _stackedWidget->setFocus();
 
-  auto select_page = new PageSelectInstallMethod;
-  _stackedWidget->addWidget(select_page);
+  auto page_conf_container = new PageConfContainer;
+  _stackedWidget->addWidget(page_conf_container);
 
   auto portable_page = new PageConfigPortable;
   _stackedWidget->addWidget(portable_page);
@@ -118,6 +117,7 @@ MainWindow::MainWindow(QWidget* parent)
 
   auto start_download = [this, download_page](INSTALLATION_METHOD method)
   {
+    _installationConfig->method = method;
     const auto version = get_latest_version();
 
     if (!version) {
@@ -131,40 +131,27 @@ MainWindow::MainWindow(QWidget* parent)
     const auto url = gen_url_from_file_name(file_name);
 
     _downloadFilePath =
-        fmt_save_path(method == INSTALLATION_METHOD::PORTABLE
-                          ? _installationConfig->portableConfig.save_path
-                          : QStandardPaths::writableLocation(
-                                QStandardPaths::DownloadLocation),
-                      +file_name.c_str());
+        fmt_save_path(_installationConfig->downloadDir, +file_name.c_str());
 
     _stackedWidget->setCurrentIndex(PAGE_DOWNLOAD_PROGRESS);
     download_page->startDownload(url.c_str(), *_downloadFilePath);
   };
 
-  connect(select_page,
-          &PageSelectInstallMethod::installMethodSelected,
+  connect(page_conf_container,
+          &PageConfContainer::startDownloadInstaller,
           this,
-          [=, this](INSTALLATION_METHOD method)
+          [=, this](QString const& saveDir)
           {
-            switch (method) {
-              case PORTABLE: {
-                _stackedWidget->setCurrentWidget(portable_page);
-                break;
-              }
-              case INSTALLER: {
-                _installationConfig->method = INSTALLATION_METHOD::INSTALLER;
-                start_download(INSTALLATION_METHOD::INSTALLER);
-                break;
-              }
-            }
+            _installationConfig->downloadDir = saveDir;
+            start_download(INSTALLATION_METHOD::INSTALLER);
           });
+
   connect(portable_page,
           &PageConfigPortable::startDownload,
           this,
           [=, this](PortableConfig const& config)
           {
             _installationConfig->portableConfig = config;
-            _installationConfig->method = INSTALLATION_METHOD::PORTABLE;
             start_download(INSTALLATION_METHOD::PORTABLE);
           });
 
@@ -178,7 +165,6 @@ MainWindow::MainWindow(QWidget* parent)
                 + fmt_base_kicad_name(_latestVersion).c_str();
 
             if (UNZIP_DIALOG::execUnzip(*_downloadFilePath, extract_dir)) {
-
               download_page->setExtractDir(extract_dir);
 
               switch (_installationConfig->method) {

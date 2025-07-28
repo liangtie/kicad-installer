@@ -2,6 +2,7 @@
 #define PAGECONFCONTAINER_H
 
 #include <QWidget>
+#include <qcontainerfwd.h>
 
 namespace Ui
 {
@@ -18,6 +19,10 @@ public:
 
 private:
   Ui::PageConfContainer* ui;
+
+signals:
+
+  void startDownloadInstaller(QString const& saveDir);
 };
 
 #endif  // PAGECONFCONTAINER_H
