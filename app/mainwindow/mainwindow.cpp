@@ -31,6 +31,7 @@
 #include "app/logo/logowidget.h"
 #include "app/pages/pageconfcontainer.h"
 #include "app/pages/pagedownloadprogress.h"
+#include "app/pages/pageopendownloaddir.h"
 #include "app/titlebar/titlebar.h"
 #include "app/utils/create_shortcut.h"
 #include "app/utils/find_file_in_dir.h"
@@ -104,6 +105,9 @@ MainWindow::MainWindow(QWidget* parent)
   auto download_page = new PageDownloadProgress;
   _stackedWidget->addWidget(download_page);
 
+  auto open_download_dir = new PageOpenDownloadDir;
+  _stackedWidget->addWidget(open_download_dir);
+
   auto start_download = [=](INSTALLATION_METHOD method)
   {
     _installationConfig->method = method;
@@ -150,12 +154,14 @@ MainWindow::MainWindow(QWidget* parent)
           this,
           [=]
           {
+            open_download_dir->setDownloadFilePath(*_downloadFilePath);
+            _stackedWidget->setCurrentWidget(open_download_dir);
             const auto extract_dir =
                 QFileInfo(*_downloadFilePath).absoluteDir().absolutePath() + "/"
                 + fmt_base_kicad_name(_latestVersion).c_str();
 
             if (UNZIP_DIALOG::execUnzip(*_downloadFilePath, extract_dir)) {
-              download_page->setExtractDir(extract_dir);
+              open_download_dir->setExtractDir(extract_dir);
 
               switch (_installationConfig->method) {
                 case PORTABLE: {

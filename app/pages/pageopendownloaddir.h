@@ -19,6 +19,10 @@ public:
   explicit PageOpenDownloadDir(QWidget* parent = nullptr);
   ~PageOpenDownloadDir();
 
+  void setDownloadFilePath(QString const& path) { _downloadFilePath = path; }
+
+  void setExtractDir(std::optional<QString> const& path) { _extractDir = path; }
+
 private:
   Ui::PageOpenDownloadDir* ui;
   QString _downloadFilePath;

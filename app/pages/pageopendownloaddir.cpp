@@ -12,6 +12,7 @@ PageOpenDownloadDir::PageOpenDownloadDir(QWidget* parent)
     , ui(new Ui::PageOpenDownloadDir)
 {
   ui->setupUi(this);
+  ui->verticalLayout->setAlignment(Qt::AlignCenter);
   connect(ui->btn_open_download_dir,
           &QPushButton::clicked,
           this,

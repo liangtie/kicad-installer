@@ -59,11 +59,6 @@ void PageDownloadProgress::startDownload(QString const& url,
   _downloadThread->start();
 }
 
-void PageDownloadProgress::setExtractDir(QString const& path)
-{
-  _extractDir = path;
-}
-
 void PageDownloadProgress::updateProgress(DOWNLOAD_PROGRESS const& progress)
 {
   if (progress.total == 0) {
