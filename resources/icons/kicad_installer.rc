@@ -1,3 +1,5 @@
+#include <windows.h>
+
 IDI_ICON1 ICON "icon_kicad.ico"
 
 VS_VERSION_INFO VERSIONINFO
