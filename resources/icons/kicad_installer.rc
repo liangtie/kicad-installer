@@ -1,3 +1,5 @@
+#include <windows.h>
+
 IDI_ICON1 ICON "icon_kicad.ico"
 
 VS_VERSION_INFO VERSIONINFO
@@ -13,11 +15,11 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "CompanyName", "kicad.eda.cn"
+            VALUE "CompanyName", "深圳华秋电子有限公司"
             VALUE "FileDescription", "KiCad Installer"
             VALUE "FileVersion", "1.0.0.0"
             VALUE "InternalName", "kicad-installer"
-            VALUE "LegalCopyright", "Copyright (C) 2025 kicad.eda.cn"
+            VALUE "LegalCopyright", "Copyright (C) 2025 深圳华秋电子有限公司"
             VALUE "OriginalFilename", "kicad-installer.exe"
             VALUE "ProductName", "KiCad Installer"
             VALUE "ProductVersion", "1.0.0.0"
