@@ -70,11 +70,10 @@ QLabel#lb_portable:hover {
 
 QProgressBar {
   border: none;
-  background-color: #e0e0e0;
-  text-align: center;
-  color: black;
+  background: #e6e6e6;
   font-size: 14px;
   border-radius: 4px;
+  height: 8px;
 }
 
 QProgressBar::chunk {
@@ -82,11 +81,7 @@ QProgressBar::chunk {
   width: 1px;
   margin: 0px;
   border-radius: 4px;
-}
-
-QProgressBar QLabel {
-  color: black;
-  padding: 0px 5px;
+  height: 8px;
 }
 
 QPushButton#btn_change_dir {
