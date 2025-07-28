@@ -3,6 +3,7 @@
     <file>icons/kicad_x_huaqiu.png</file>
     <file>themes/light-style.css</file>
     <file>icons/close.svg</file>
+    <file>icons/checked.svg</file>
     <file>icons/help.svg</file>
     <file>icons/minimize.svg</file>
   </qresource>

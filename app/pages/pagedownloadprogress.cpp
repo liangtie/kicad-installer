@@ -93,7 +93,6 @@ void PageDownloadProgress::updateProgress(DOWNLOAD_PROGRESS const& progress)
 
   if (progress.finished) {
     emit downloadCompleted();
-    ui->widget_progress->hide();
   }
 
   if (progress.error) {

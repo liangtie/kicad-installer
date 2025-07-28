@@ -29,7 +29,6 @@
 #include <QtWidgets/QStyle>
 
 #include "app/logo/logowidget.h"
-#include "app/pages/page_index.h"
 #include "app/pages/pageconfcontainer.h"
 #include "app/pages/pagedownloadprogress.h"
 #include "app/titlebar/titlebar.h"
@@ -105,7 +104,7 @@ MainWindow::MainWindow(QWidget* parent)
   auto download_page = new PageDownloadProgress;
   _stackedWidget->addWidget(download_page);
 
-  auto start_download = [this, download_page](INSTALLATION_METHOD method)
+  auto start_download = [=](INSTALLATION_METHOD method)
   {
     _installationConfig->method = method;
     const auto version = get_latest_version();
@@ -123,14 +122,14 @@ MainWindow::MainWindow(QWidget* parent)
     _downloadFilePath =
         fmt_save_path(_installationConfig->downloadDir, +file_name.c_str());
 
-    _stackedWidget->setCurrentIndex(PAGE_DOWNLOAD_PROGRESS);
+    _stackedWidget->setCurrentWidget(download_page);
     download_page->startDownload(url.c_str(), *_downloadFilePath);
   };
 
   connect(page_conf_container,
           &PageConfContainer::startDownloadInstaller,
           this,
-          [=, this](QString const& saveDir)
+          [=](QString const& saveDir)
           {
             _installationConfig->downloadDir = saveDir;
             start_download(INSTALLATION_METHOD::INSTALLER);
@@ -139,7 +138,7 @@ MainWindow::MainWindow(QWidget* parent)
   connect(page_conf_container,
           &PageConfContainer::startDownloadPortable,
           this,
-          [=, this](PortableConfig const& cnf, QString const& saveDir)
+          [=](PortableConfig const& cnf, QString const& saveDir)
           {
             _installationConfig->portableConfig = cnf;
             _installationConfig->downloadDir = saveDir;
@@ -149,7 +148,7 @@ MainWindow::MainWindow(QWidget* parent)
   connect(download_page,
           &PageDownloadProgress::downloadCompleted,
           this,
-          [=, this]
+          [=]
           {
             const auto extract_dir =
                 QFileInfo(*_downloadFilePath).absoluteDir().absolutePath() + "/"
