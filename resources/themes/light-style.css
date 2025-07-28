@@ -40,7 +40,7 @@ QPushButton#btn_start_portable,
 QPushButton#btn_open_dir {
   background-color: #007bff;
   min-height: 60px;
-  border-radius: 6px;
+  border-radius: 4px;
   color: white;
   font-size: 32px;
 }
@@ -58,7 +58,6 @@ QPushButton#btn_open_dir {
   color: white;
   font-size: 24px;
   min-height: 48px;
-  padding: 6px;
 }
 
 QPushButton#btn_start_download:hover {
