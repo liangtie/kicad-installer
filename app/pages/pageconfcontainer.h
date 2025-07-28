@@ -2,7 +2,8 @@
 #define PAGECONFCONTAINER_H
 
 #include <QWidget>
-#include <qcontainerfwd.h>
+
+#include "pageconfigportable.h"
 
 namespace Ui
 {
@@ -23,6 +24,8 @@ private:
 signals:
 
   void startDownloadInstaller(QString const& saveDir);
+
+  void startDownloadPortable(PortableConfig const& cnf, QString const& saveDir);
 };
 
 #endif  // PAGECONFCONTAINER_H

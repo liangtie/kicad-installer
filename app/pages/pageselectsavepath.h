@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include <qobject.h>
+
 namespace Ui
 {
 class PageSelectSavePath;
@@ -16,8 +18,13 @@ public:
   explicit PageSelectSavePath(QWidget* parent = nullptr);
   ~PageSelectSavePath();
 
+  QString getSavePath() const;
+  
+  bool eventFilter(QObject* obj, QEvent* event) override;
+
 private:
   Ui::PageSelectSavePath* ui;
+  void selectDownloadPath();
 };
 
 #endif  // PAGESELECTSAVEPATH_H

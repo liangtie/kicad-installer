@@ -3,13 +3,10 @@
 
 #include <QWidget>
 
-#include "app/utils/installation_method.h"
-
 namespace Ui
 {
 class PageSelectInstallMethod;
 }
-
 
 class PageSelectInstallMethod : public QWidget
 {
@@ -19,11 +16,14 @@ public:
   explicit PageSelectInstallMethod(QWidget* parent = nullptr);
   ~PageSelectInstallMethod();
 
+  bool eventFilter(QObject* obj, QEvent* event) override;
+
 private:
   Ui::PageSelectInstallMethod* ui;
 
 signals:
-  void installMethodSelected(INSTALLATION_METHOD method);
+  void startInstaller();
+  void configurePortable();
 };
 
 #endif  // PAGESELECTINSTALLMETHOD_H

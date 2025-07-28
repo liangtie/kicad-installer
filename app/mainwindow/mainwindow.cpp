@@ -33,7 +33,6 @@
 #include "app/pages/pageconfcontainer.h"
 #include "app/pages/pageconfigportable.h"
 #include "app/pages/pagedownloadprogress.h"
-#include "app/pages/pageselectinstallmethod.h"
 #include "app/titlebar/titlebar.h"
 #include "app/utils/create_shortcut.h"
 #include "app/utils/find_file_in_dir.h"
@@ -84,13 +83,8 @@ MainWindow::MainWindow(QWidget* parent)
   _windowAgent->setSystemButton(QWK::WindowAgentBase::Help, helpButton);
   _windowAgent->setTitleBar(title_bar);
   layout->addWidget(title_bar);
-  connect(closeButton,
-          &QPushButton::clicked,
-          this,
-          []
-          {
-            QApplication::quit();
-          });
+  connect(
+      closeButton, &QPushButton::clicked, this, [] { QApplication::quit(); });
   connect(minButton, &QPushButton::clicked, this, &QWidget::showMinimized);
   connect(helpButton,
           &QPushButton::clicked,
@@ -108,9 +102,6 @@ MainWindow::MainWindow(QWidget* parent)
 
   auto page_conf_container = new PageConfContainer;
   _stackedWidget->addWidget(page_conf_container);
-
-  auto portable_page = new PageConfigPortable;
-  _stackedWidget->addWidget(portable_page);
 
   auto download_page = new PageDownloadProgress;
   _stackedWidget->addWidget(download_page);
@@ -146,12 +137,22 @@ MainWindow::MainWindow(QWidget* parent)
             start_download(INSTALLATION_METHOD::INSTALLER);
           });
 
-  connect(portable_page,
-          &PageConfigPortable::startDownload,
+  connect(page_conf_container,
+          &PageConfContainer::startDownloadInstaller,
           this,
-          [=, this](PortableConfig const& config)
+          [=, this](QString const& saveDir)
           {
-            _installationConfig->portableConfig = config;
+            _installationConfig->downloadDir = saveDir;
+            start_download(INSTALLATION_METHOD::INSTALLER);
+          });
+
+  connect(page_conf_container,
+          &PageConfContainer::startDownloadPortable,
+          this,
+          [=, this](PortableConfig const& cnf, QString const& saveDir)
+          {
+            _installationConfig->portableConfig = cnf;
+            _installationConfig->downloadDir = saveDir;
             start_download(INSTALLATION_METHOD::PORTABLE);
           });
 

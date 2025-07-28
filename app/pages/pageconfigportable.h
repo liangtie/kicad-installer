@@ -26,16 +26,12 @@ public:
   explicit PageConfigPortable(QWidget* parent = nullptr);
   ~PageConfigPortable();
 
-  bool eventFilter(QObject* obj, QEvent* event) override;
-
 private:
   Ui::PageConfigPortable* ui;
 
-  void selectDownloadPath();
-
 signals:
 
-  void startDownload(PortableConfig const& config);
+  void startPortable(PortableConfig const& config);
 };
 
 #endif  // PAGECONFIGPORTABLE_H
