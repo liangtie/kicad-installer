@@ -44,6 +44,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         app/pages/pageopendownloaddir.h app/pages/pageopendownloaddir.cpp app/pages/pageopendownloaddir.ui
         app/pages/pageselectsavepath.h app/pages/pageselectsavepath.cpp app/pages/pageselectsavepath.ui
         app/pages/pageconfcontainer.h app/pages/pageconfcontainer.cpp app/pages/pageconfcontainer.ui
+        app/pages/pageselectinstallmethod.h app/pages/pageselectinstallmethod.cpp app/pages/pageselectinstallmethod.ui
     )
 
     # Define target properties for Android with Qt 6 as:
