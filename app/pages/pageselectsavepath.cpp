@@ -14,6 +14,7 @@ PageSelectSavePath::PageSelectSavePath(QWidget* parent)
   ui->setupUi(this);
   ui->le_download_dir->setText(
       QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
+  ui->le_download_dir->installEventFilter(this);
 
   connect(ui->btn_change_dir,
           &QPushButton::clicked,

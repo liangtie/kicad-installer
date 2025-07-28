@@ -10,6 +10,7 @@ PageSelectInstallMethod::PageSelectInstallMethod(QWidget* parent)
 {
   ui->setupUi(this);
   ui->lay_main->setAlignment(Qt::AlignCenter);
+  ui->lb_portable->installEventFilter(this);
 
   connect(ui->btn_start_installer,
           &QPushButton::clicked,

@@ -31,7 +31,6 @@
 #include "app/logo/logowidget.h"
 #include "app/pages/page_index.h"
 #include "app/pages/pageconfcontainer.h"
-#include "app/pages/pageconfigportable.h"
 #include "app/pages/pagedownloadprogress.h"
 #include "app/titlebar/titlebar.h"
 #include "app/utils/create_shortcut.h"
@@ -127,15 +126,6 @@ MainWindow::MainWindow(QWidget* parent)
     _stackedWidget->setCurrentIndex(PAGE_DOWNLOAD_PROGRESS);
     download_page->startDownload(url.c_str(), *_downloadFilePath);
   };
-
-  connect(page_conf_container,
-          &PageConfContainer::startDownloadInstaller,
-          this,
-          [=, this](QString const& saveDir)
-          {
-            _installationConfig->downloadDir = saveDir;
-            start_download(INSTALLATION_METHOD::INSTALLER);
-          });
 
   connect(page_conf_container,
           &PageConfContainer::startDownloadInstaller,

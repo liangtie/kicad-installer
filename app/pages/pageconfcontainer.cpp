@@ -21,6 +21,11 @@ PageConfContainer::PageConfContainer(QWidget* parent)
   ui->stackedWidget->addWidget(page_config_portable);
 
   connect(page_select_install_method,
+          &PageSelectInstallMethod::configurePortable,
+          [=, this]
+          { ui->stackedWidget->setCurrentWidget(page_config_portable); });
+
+  connect(page_select_install_method,
           &PageSelectInstallMethod::startInstaller,
           this,
           [=, this]() {
@@ -36,7 +41,6 @@ PageConfContainer::PageConfContainer(QWidget* parent)
                                        widget_select_save_path->getSavePath());
           });
 
-  // Set the initial page to select install method
   ui->stackedWidget->setCurrentWidget(page_select_install_method);
 }
 
