@@ -111,7 +111,7 @@ MainWindow::MainWindow(QWidget* parent)
     const auto version = get_latest_version();
 
     if (!version) {
-      QMessageBox::warning(this, "Error", "Failed to get the latest version.");
+      QMessageBox::warning(this, "错误", "获取最新版本失败");
       return;
     }
 
