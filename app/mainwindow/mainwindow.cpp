@@ -111,6 +111,7 @@ MainWindow::MainWindow(QWidget* parent)
 
   auto start_download = [=](INSTALLATION_METHOD method)
   {
+    title_bar->set_backward_button_visible(false);
     _installationConfig->method = method;
     const auto version = get_latest_version();
 
