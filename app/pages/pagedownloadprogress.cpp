@@ -70,10 +70,27 @@ void PageDownloadProgress::updateProgress(DOWNLOAD_PROGRESS const& progress)
   ui->progressBar->setValue(progress.downloaded * 100 / progress.total);
   ui->lb_progress->setText(
       fmt::format("{}%", progress.downloaded * 100 / progress.total).c_str());
+
+  QString timeText;
+  if (progress.speed > 0) {
+    qint64 secondsRemaining =
+        (progress.total - progress.downloaded) / progress.speed;
+    qint64 hours = secondsRemaining / 3600;
+    qint64 minutes = (secondsRemaining % 3600) / 60;
+    qint64 seconds = secondsRemaining % 60;
+    timeText = QString("剩余时间: %1:%2:%3")
+                   .arg(hours, 2, 10, QChar('0'))
+                   .arg(minutes, 2, 10, QChar('0'))
+                   .arg(seconds, 2, 10, QChar('0'));
+  } else {
+    timeText = "剩余时间: --:--:--";
+  }
+
   ui->label_down_count->setText(
-      fmt::format("已下载{}MB，待下载{}MB",
+      fmt::format("已下载{}MB，待下载{}MB，{}",
                   progress.downloaded / MB,
-                  (progress.total - progress.downloaded) / MB)
+                  (progress.total - progress.downloaded) / MB,
+                  timeText.toStdString().c_str())
           .c_str());
 
   QString speedText;
@@ -84,6 +101,7 @@ void PageDownloadProgress::updateProgress(DOWNLOAD_PROGRESS const& progress)
     speedText = QString("下载速度:")
         + QString::number(progress.speed / double(KB), 'f', 2) + " KB/s";
   }
+
   ui->label_speed->setText(speedText);
 
   if (progress.finished) {
