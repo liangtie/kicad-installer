@@ -1,5 +1,6 @@
 #include <QApplication>
 #include <QFile>
+#include <QFontDatabase>  // Add this include
 #include <QLocale>
 #include <QTextStream>
 #include <QTranslator>
@@ -12,11 +13,16 @@
 
 int main(int argc, char* argv[])
 {
-  qputenv("QT_QPA_PLATFORM","windows:darkmode=0");
+  qputenv("QT_QPA_PLATFORM", "windows:darkmode=0");
   QApplication::setHighDpiScaleFactorRoundingPolicy(
       Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
   QCoreApplication::setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
   QApplication qApplication(argc, argv);
+
+  // Load custom fonts
+  // Load only used custom fonts
+  QFontDatabase::addApplicationFont(":/fonts/PingFang Regular.ttf");
+  QFontDatabase::addApplicationFont(":/fonts/PingFang Bold.ttf");
 
   QTranslator translator;
   const QStringList uiLanguages = QLocale::system().uiLanguages();
