@@ -49,9 +49,9 @@ struct INSTALLATION_CONFIG
 
 enum MAINWINDOW_SIZE
 {
-  MAINWINDOW_WIDTH = 672,
+  MAINWINDOW_WIDTH = 555,
   MAINWINDOW_HEIGHT = 420,
-  SIDE_MARGIN = 70
+  SIDE_MARGIN = 50
 };
 
 inline auto fmt_save_path(QString saveDir, QString const& filename) -> QString
@@ -80,6 +80,7 @@ MainWindow::MainWindow(QWidget* parent)
   _windowAgent->setSystemButton(QWK::WindowAgentBase::Minimize, minButton);
   _windowAgent->setSystemButton(QWK::WindowAgentBase::Close, closeButton);
   _windowAgent->setSystemButton(QWK::WindowAgentBase::Help, helpButton);
+  _windowAgent->setHitTestVisible(title_bar->back_button());
   _windowAgent->setTitleBar(title_bar);
   layout->addWidget(title_bar);
   connect(
@@ -193,6 +194,15 @@ MainWindow::MainWindow(QWidget* parent)
               }
             }
           });
+
+  connect(title_bar,
+          &TitleBar::backward_clicked,
+          [=] { page_conf_container->show_home_page(); });
+
+  connect(page_conf_container,
+          &PageConfContainer::showBackwardButton,
+          title_bar,
+          &TitleBar::set_backward_button_visible);
 
   setAttribute(Qt::WA_DontCreateNativeAncestors);
   setFixedSize(MAINWINDOW_WIDTH, MAINWINDOW_HEIGHT);

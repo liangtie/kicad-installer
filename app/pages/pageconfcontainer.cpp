@@ -23,7 +23,10 @@ PageConfContainer::PageConfContainer(QWidget* parent)
   connect(page_select_install_method,
           &PageSelectInstallMethod::configurePortable,
           [=, this]
-          { ui->stackedWidget->setCurrentWidget(page_config_portable); });
+          {
+            ui->stackedWidget->setCurrentWidget(page_config_portable);
+            emit showBackwardButton(true);
+          });
 
   connect(page_select_install_method,
           &PageSelectInstallMethod::startInstaller,
@@ -42,6 +45,12 @@ PageConfContainer::PageConfContainer(QWidget* parent)
           });
 
   ui->stackedWidget->setCurrentWidget(page_select_install_method);
+
+  show_home_page = [=, this]()
+  {
+    ui->stackedWidget->setCurrentWidget(page_select_install_method);
+    emit showBackwardButton(false);
+  };
 }
 
 PageConfContainer::~PageConfContainer()

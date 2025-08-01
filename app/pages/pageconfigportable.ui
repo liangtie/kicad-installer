@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>657</width>
-    <height>106</height>
+    <width>674</width>
+    <height>223</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,10 +30,52 @@
     <number>0</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
      <property name="spacing">
       <number>0</number>
      </property>
+     <item>
+      <widget class="QPushButton" name="btn_start_portable">
+       <property name="minimumSize">
+        <size>
+         <width>188</width>
+         <height>48</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>188</width>
+         <height>48</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>安装便携版</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>20</number>
+     </property>
+     <property name="topMargin">
+      <number>30</number>
+     </property>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
      <item>
       <widget class="QCheckBox" name="check_auto_run">
        <property name="text">
@@ -55,23 +97,17 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btn_start_portable">
-       <property name="minimumSize">
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
         <size>
-         <width>188</width>
-         <height>48</height>
+         <width>40</width>
+         <height>20</height>
         </size>
        </property>
-       <property name="maximumSize">
-        <size>
-         <width>188</width>
-         <height>48</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>安装便携版</string>
-       </property>
-      </widget>
+      </spacer>
      </item>
     </layout>
    </item>

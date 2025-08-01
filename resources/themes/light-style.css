@@ -64,6 +64,10 @@ QPushButton#btn_open_download_dir:hover {
   background-color: #0069d9;
 }
 
+QLabel#lb_portable {
+  color: #999999;
+}
+
 QLabel#lb_portable:hover {
   color: #007bff;
 }

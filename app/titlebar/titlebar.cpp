@@ -17,13 +17,18 @@ TitleBar::TitleBar(QWidget* parent)
   ui->btn_min->setIcon(QIcon(":/icons/minimize.svg"));
   ui->btn_close->setIcon(QIcon(":/icons/close.svg"));
   ui->btn_help->setIcon(QIcon(":/icons/help.svg"));
-
+  ui->btn_back->setIcon(QIcon(":/icons/arrow-left.svg"));
 
   for (const auto btn : findChildren<QToolButton*>()) {
     btn->setIconSize(kSize16);
     btn->setFixedSize(kSize16);
     btn->setProperty("system-button", true);
   }
+
+  set_backward_button_visible(false);
+
+  connect(
+      ui->btn_back, &QToolButton::clicked, this, &TitleBar::backward_clicked);
 }
 
 TitleBar::~TitleBar()
@@ -44,4 +49,14 @@ auto TitleBar::minimize_button() const -> QToolButton*
 auto TitleBar::help_button() const -> QToolButton*
 {
   return ui->btn_help;
+}
+
+auto TitleBar::back_button() const -> QToolButton*
+{
+   return ui->btn_back;
+}
+
+auto TitleBar::set_backward_button_visible(bool v) -> void
+{
+  ui->btn_back->setVisible(v);
 }
