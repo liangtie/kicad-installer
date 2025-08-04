@@ -14,7 +14,10 @@ QToolButton#btn_min {
 }
 
 QToolButton#btn_min:hover,
-QToolButton#btn_min:pressed {
+QToolButton#btn_help:hover,
+QToolButton#btn_min:pressed,
+QToolButton#btn_help:pressed
+{
   background-color: rgba(0, 0, 0, 15%);
 }
 
