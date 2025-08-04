@@ -22,4 +22,4 @@ https://windowsforum.com/threads/get-all-cli-parameters-switches-from-nsis-insta
 
 ## Compress
 
-upx --best .\kicad-installer.exe
+upx  .\kicad-installer.exe
