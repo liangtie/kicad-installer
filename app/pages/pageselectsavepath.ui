@@ -32,6 +32,9 @@
    <string>Form</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
+   <property name="spacing">
+    <number>8</number>
+   </property>
    <property name="leftMargin">
     <number>0</number>
    </property>
@@ -61,7 +64,7 @@
      </property>
      <property name="minimumSize">
       <size>
-       <width>360</width>
+       <width>0</width>
        <height>0</height>
       </size>
      </property>
