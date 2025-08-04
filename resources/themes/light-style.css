@@ -16,8 +16,7 @@ QToolButton#btn_min {
 QToolButton#btn_min:hover,
 QToolButton#btn_help:hover,
 QToolButton#btn_min:pressed,
-QToolButton#btn_help:pressed
-{
+QToolButton#btn_help:pressed {
   background-color: rgba(0, 0, 0, 15%);
 }
 
@@ -32,7 +31,7 @@ QToolButton#btn_close:pressed {
 
 QWidget,
 MainWindow {
-  background-color: #f3f3f3;
+  background-color: #ffffff;
   font-size: 14px;
   font-weight: 400;
   color: #333333;
@@ -42,7 +41,7 @@ QLabel#lb_title {
   width: 197px;
   height: 33px;
   font-size: 24px;
-  font-family: PingFang SC, PingFang SC-Bold;
+
   font-weight: 700;
   text-align: left;
   color: #000000;
@@ -52,7 +51,7 @@ QPushButton#btn_start_installer,
 QPushButton#btn_start_portable,
 QPushButton#btn_open_download_dir {
   font-size: 18px;
-  font-family: PingFang SC, PingFang SC-Regular;
+
   font-weight: 400;
   color: #ffffff;
   width: 188px;
@@ -100,15 +99,11 @@ QPushButton#btn_change_dir {
 }
 
 QPushButton#btn_change_dir:hover {
-  width: 84px;
-  height: 32px;
-  background: #f2f8ff;
   border: 1px solid #007bff;
-  border-radius: 4px;
 }
 
 QLineEdit#le_download_dir {
-  width: 360px;
+  width: 272px;
   height: 32px;
   background: #ffffff;
   border: 1px solid #e4e4e4;
@@ -119,7 +114,7 @@ QCheckBox {
   width: 96px;
   height: 17px;
   font-size: 12px;
-  font-family: PingFang SC, PingFang SC-Regular;
+
   font-weight: 400;
   text-align: left;
   color: #333333;

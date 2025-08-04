@@ -21,8 +21,8 @@ int main(int argc, char* argv[])
 
   // Load custom fonts
   // Load only used custom fonts
-  QFontDatabase::addApplicationFont(":/fonts/PingFang Regular.ttf");
-  QFontDatabase::addApplicationFont(":/fonts/PingFang Bold.ttf");
+  // QFontDatabase::addApplicationFont(":/fonts/PingFang Regular.ttf");
+  // QFontDatabase::addApplicationFont(":/fonts/PingFang Bold.ttf");
 
   QTranslator translator;
   const QStringList uiLanguages = QLocale::system().uiLanguages();
