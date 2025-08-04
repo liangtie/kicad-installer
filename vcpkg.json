@@ -15,7 +15,10 @@
       "name": "minizip"
     },
     {
-      "name": "cpr"
+      "name": "cpp-httplib"
+    },
+    {
+      "name" : "openssl"
     }
   ]
 }

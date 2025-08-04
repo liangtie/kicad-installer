@@ -14,8 +14,9 @@ find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
-find_package(cpr CONFIG REQUIRED)
+find_package(httplib CONFIG REQUIRED)
 find_package(unofficial-minizip CONFIG REQUIRED)
+find_package(OpenSSL REQUIRED)
 
 set(
     TS_FILES
@@ -78,8 +79,10 @@ target_link_libraries(kicad-installer
     QWKWidgets
     nlohmann_json::nlohmann_json
     spdlog::spdlog
-    cpr::cpr
+    httplib::httplib
     unofficial::minizip::minizip
+    OpenSSL::SSL
+    OpenSSL::Crypto
 )
 
 target_link_directories(

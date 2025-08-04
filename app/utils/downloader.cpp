@@ -1,6 +1,7 @@
 #include <QElapsedTimer>
 #include <QFileInfo>
 #include <QThread>
+#include <QUrl>
 #include <atomic>
 #include <fstream>
 #include <memory>
@@ -8,8 +9,7 @@
 
 #include "downloader.h"
 
-#include <cpr/cpr.h>
-#include <cpr/response.h>
+#include "httplib_wrapper.h"
 
 DOWNLOADER::DOWNLOADER(QString url, QString save_path)
     : _url(std::move(url))
@@ -47,28 +47,47 @@ void DOWNLOADER::downloadFile()
     return;
   }
 
-  cpr::Session session;
-  session.SetUrl(cpr::Url {_url.toStdString()});
+  // Parse URL to extract host and path
+  QUrl url(_url);
+  QString host = url.host();
+  QString path = url.path();
+  if (!url.query().isEmpty()) {
+    path += "?" + url.query();
+  }
 
-  const auto contentLength = session.GetDownloadFileLength();
-  if (contentLength <= 0) {
+  int port = url.port(443);  // Default to HTTPS port
+
+  // Use appropriate client based on protocol
+  std::unique_ptr<httplib::SSLClient> client = std::make_unique<httplib::SSLClient>(host.toStdString(), port);
+
+  // Get content length first
+  auto head_res = client->Head(path.toStdString().c_str());
+  if (!head_res || head_res->status != 200) {
     m_progress.error = true;
-    m_progress.errorMessage =
-        "Invalid content length or cannot determine file size.";
+    m_progress.errorMessage = "Failed to get file information";
     emit downloadProgress(m_progress);
     return;
   }
 
-  m_progress.total = static_cast<unsigned long long>(contentLength);
+  auto content_length_it = head_res->get_header_value("Content-Length");
+  if (content_length_it.empty()) {
+    m_progress.error = true;
+    m_progress.errorMessage = "Cannot determine file size.";
+    emit downloadProgress(m_progress);
+    return;
+  }
+
+  m_progress.total = std::stoull(content_length_it);
   m_progress.downloaded = 0;
 
   QElapsedTimer timer;
   timer.start();
   unsigned long long lastUpdateTime = 0;
 
-  cpr::WriteCallback callback = {
-      [this, &ofs, &timer, &lastUpdateTime](const std::string_view& data,
-                                            intptr_t /* userdata */) -> bool
+  // Download with progress tracking
+  auto res = client->Get(
+      path.toStdString().c_str(),
+      [&](const char* data, size_t len) -> bool
       {
         if (m_cancelled->load()) {
           m_progress.error = true;
@@ -77,8 +96,8 @@ void DOWNLOADER::downloadFile()
           return false;
         }
 
-        ofs.write(data.data(), data.size());
-        m_progress.downloaded += data.size();
+        ofs.write(data, len);
+        m_progress.downloaded += len;
 
         auto elapsedMs = timer.elapsed();
         if (elapsedMs - lastUpdateTime >= 500
@@ -97,13 +116,12 @@ void DOWNLOADER::downloadFile()
         }
 
         return true;
-      }};
+      });
 
-  session.SetCancellationParam(m_cancelled);
-  cpr::Response result = session.Download(callback);
-  if (result.error) {
+  if (!res || res->status != 200) {
     m_progress.error = true;
-    m_progress.errorMessage = QString::fromStdString(result.error.message);
+    m_progress.errorMessage = "Download failed with HTTP status: "
+        + QString::number(res ? res->status : 0);
     emit downloadProgress(m_progress);
     return;
   }
