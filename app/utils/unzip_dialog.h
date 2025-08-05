@@ -53,6 +53,7 @@ private slots:
   void onFinished();
   void reject() override;
 
+
 private:
   QString _zipDir;
   QString _destDir;

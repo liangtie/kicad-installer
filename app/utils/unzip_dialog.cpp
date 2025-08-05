@@ -131,7 +131,13 @@ UNZIP_DIALOG::UNZIP_DIALOG(QString const& zipDir,
   connect(cancel, &QPushButton::clicked, this, &QDialog::reject);
 }
 
-UNZIP_DIALOG::~UNZIP_DIALOG() {}
+UNZIP_DIALOG::~UNZIP_DIALOG()
+{
+  _worker->cancel();
+
+  _thread->quit();
+  _thread->wait();
+}
 
 void UNZIP_DIALOG::startWorker()
 {
@@ -145,11 +151,6 @@ void UNZIP_DIALOG::startWorker()
   connect(_worker, &UNZIP_WORKER::unzipError, this, &UNZIP_DIALOG::onError);
   connect(
       _worker, &UNZIP_WORKER::unzipFinished, this, &UNZIP_DIALOG::onFinished);
-
-  connect(_worker, &UNZIP_WORKER::unzipFinished, _thread, &QThread::quit);
-  connect(_worker, &UNZIP_WORKER::unzipError, _thread, &QThread::quit);
-  connect(_thread, &QThread::finished, _worker, &QObject::deleteLater);
-  connect(_thread, &QThread::finished, _thread, &QObject::deleteLater);
 
   _thread->start();
 }
@@ -185,7 +186,5 @@ void UNZIP_DIALOG::onFinished()
 void UNZIP_DIALOG::reject()
 {
   _worker->cancel();
-  _thread->quit();
-  _thread->wait();
   QDialog::reject();
 }
