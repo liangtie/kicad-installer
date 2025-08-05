@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>254</width>
-    <height>186</height>
+    <height>220</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -38,7 +38,7 @@
    <item>
     <layout class="QVBoxLayout" name="lay_logo">
      <property name="topMargin">
-      <number>42</number>
+      <number>0</number>
      </property>
      <item>
       <widget class="QLabel" name="lb_logo">

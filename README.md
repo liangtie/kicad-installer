@@ -22,4 +22,8 @@ https://windowsforum.com/threads/get-all-cli-parameters-switches-from-nsis-insta
 
 ## Compress
 
+Try to compress with either of the following command :
+
 upx  .\kicad-installer.exe
+upx --lzma .\kicad-installer.exe
+upx --best .\kicad-installer.exe
