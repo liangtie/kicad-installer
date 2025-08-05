@@ -55,7 +55,7 @@ void DOWNLOADER::downloadFile()
     path += "?" + url.query();
   }
 
-  httplib::Client client(host.toStdString(), url.scheme() == "http"  ? 80 :443);
+  httplib::SSLClient client(host.toStdString(), url.port(443));
 
   // Get content length first
   auto head_res = client.Head(path.toStdString().c_str());

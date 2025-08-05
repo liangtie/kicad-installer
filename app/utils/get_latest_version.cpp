@@ -12,7 +12,7 @@
 auto get_latest_version() -> std::optional<std::string>
 {
   try {
-    auto client = httplib::Client("https://kicad.eda.cn" );
+    auto client = httplib::SSLClient("kicad.eda.cn",443 );
     auto res = client.Get("/kicad-versions.json");
     const auto versions =
         nlohmann::json::parse(res->body).get<std::vector<VERSION_INFO>>();
