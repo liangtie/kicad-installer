@@ -47,6 +47,7 @@ private:
   QString _zipDir;
   QString _destDir;
   bool _result = false;
+  
 };
 
 #endif

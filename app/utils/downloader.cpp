@@ -55,13 +55,10 @@ void DOWNLOADER::downloadFile()
     path += "?" + url.query();
   }
 
-  int port = url.port(443);  // Default to HTTPS port
-
-  // Use appropriate client based on protocol
-  std::unique_ptr<httplib::SSLClient> client = std::make_unique<httplib::SSLClient>(host.toStdString(), port);
+  httplib::Client client(host.toStdString(), url.scheme() == "http"  ? 80 :443);
 
   // Get content length first
-  auto head_res = client->Head(path.toStdString().c_str());
+  auto head_res = client.Head(path.toStdString().c_str());
   if (!head_res || head_res->status != 200) {
     m_progress.error = true;
     m_progress.errorMessage = "Failed to get file information";
@@ -85,7 +82,7 @@ void DOWNLOADER::downloadFile()
   unsigned long long lastUpdateTime = 0;
 
   // Download with progress tracking
-  auto res = client->Get(
+  auto res = client.Get(
       path.toStdString().c_str(),
       [&](const char* data, size_t len) -> bool
       {
