@@ -12,11 +12,17 @@
 #include "unzip_dialog.h"
 
 #include <minizip/unzip.h>
+#include <qdialog.h>
 
 UNZIP_WORKER::UNZIP_WORKER(QString zipFile, QString destDir)
     : _zipFile(std::move(zipFile))
     , _destDir(std::move(destDir))
 {
+}
+
+void UNZIP_WORKER::cancel()
+{
+  _cancel.store(true);
 }
 
 void UNZIP_WORKER::run()
@@ -97,7 +103,7 @@ void UNZIP_WORKER::run()
     outFile.close();
     unzCloseCurrentFile(zipfile);
 
-  } while (unzGoToNextFile(zipfile) == UNZ_OK);
+  } while (!_cancel && unzGoToNextFile(zipfile) == UNZ_OK);
 
   unzClose(zipfile);
   emit unzipFinished();
@@ -125,25 +131,27 @@ UNZIP_DIALOG::UNZIP_DIALOG(QString const& zipDir,
   connect(cancel, &QPushButton::clicked, this, &QDialog::reject);
 }
 
+UNZIP_DIALOG::~UNZIP_DIALOG() {}
+
 void UNZIP_DIALOG::startWorker()
 {
-  QThread* thread = new QThread(this);
-  UNZIP_WORKER* worker = new UNZIP_WORKER(_zipDir, _destDir);
-  worker->moveToThread(thread);
+  _thread = new QThread(this);
+  _worker = new UNZIP_WORKER(_zipDir, _destDir);
+  _worker->moveToThread(_thread);
 
-  connect(thread, &QThread::started, worker, &UNZIP_WORKER::run);
+  connect(_thread, &QThread::started, _worker, &UNZIP_WORKER::run);
   connect(
-      worker, &UNZIP_WORKER::unzipProgress, this, &UNZIP_DIALOG::onProgress);
-  connect(worker, &UNZIP_WORKER::unzipError, this, &UNZIP_DIALOG::onError);
+      _worker, &UNZIP_WORKER::unzipProgress, this, &UNZIP_DIALOG::onProgress);
+  connect(_worker, &UNZIP_WORKER::unzipError, this, &UNZIP_DIALOG::onError);
   connect(
-      worker, &UNZIP_WORKER::unzipFinished, this, &UNZIP_DIALOG::onFinished);
+      _worker, &UNZIP_WORKER::unzipFinished, this, &UNZIP_DIALOG::onFinished);
 
-  connect(worker, &UNZIP_WORKER::unzipFinished, thread, &QThread::quit);
-  connect(worker, &UNZIP_WORKER::unzipError, thread, &QThread::quit);
-  connect(thread, &QThread::finished, worker, &QObject::deleteLater);
-  connect(thread, &QThread::finished, thread, &QObject::deleteLater);
+  connect(_worker, &UNZIP_WORKER::unzipFinished, _thread, &QThread::quit);
+  connect(_worker, &UNZIP_WORKER::unzipError, _thread, &QThread::quit);
+  connect(_thread, &QThread::finished, _worker, &QObject::deleteLater);
+  connect(_thread, &QThread::finished, _thread, &QObject::deleteLater);
 
-  thread->start();
+  _thread->start();
 }
 
 bool UNZIP_DIALOG::execUnzip(QString const& zipFile,
@@ -172,4 +180,12 @@ void UNZIP_DIALOG::onFinished()
 {
   _result = true;
   accept();
+}
+
+void UNZIP_DIALOG::reject()
+{
+  _worker->cancel();
+  _thread->quit();
+  _thread->wait();
+  QDialog::reject();
 }
